@@ -1,43 +1,54 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { Lock, Mail, Shield, Command, ArrowRight } from "lucide-react";
+import { Lock, Mail, Shield, Command, ArrowRight, User } from "lucide-react";
 import { useState } from "react";
 
-export const Route = createFileRoute("/")({
-  component: LoginPage,
+export const Route = createFileRoute("/register")({
+  component: RegisterPage,
   head: () => ({
     meta: [
-      { title: "Sign in — KosherLending AI Content OS" },
-      { name: "description", content: "Secure internal access to the KosherLending AI Content Operating System." },
+      { title: "Register â€” KosherLending AI Content OS" },
+      { name: "description", content: "Create an internal account for the KosherLending AI Content Operating System." },
     ],
   }),
 });
 
-function LoginPage() {
-  const [authNotice, setAuthNotice] = useState("");
+function RegisterPage() {
+  const [fullName, setFullName] = useState("Jeffrey Ben-Davis");
   const [email, setEmail] = useState("jeffrey@kosherlending.com");
-  const [password, setPassword] = useState("••••••••••");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [notice, setNotice] = useState("");
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    setAuthNotice("");
+    setNotice("");
+
+    if (password !== confirmPassword) {
+      setNotice("Password confirmation does not match.");
+      return;
+    }
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setAuthNotice("Login is temporarily disabled while backend authentication is being integrated.");
+      setNotice("Registration is temporarily disabled while backend authentication is being integrated.");
     }, 600);
   };
 
   const modules = [
-    "Knowledge", "Rules", "Content Generation",
-    "DM Keyword Routing", "Review", "Calendar", "Export",
+    "Knowledge",
+    "Rules",
+    "Content Generation",
+    "DM Keyword Routing",
+    "Review",
+    "Calendar",
+    "Export",
   ];
 
   return (
     <div className="min-h-screen flex bg-background">
-      {/* Left — cinematic architectural panel */}
       <div className="hidden lg:flex lg:w-[58%] xl:w-[55%] bg-gradient-cinematic text-white relative overflow-hidden texture-grain">
-        {/* Architectural grids — layered for depth */}
         <div
           className="absolute inset-0 opacity-[0.10] pointer-events-none"
           style={{
@@ -54,8 +65,6 @@ function LoginPage() {
             backgroundSize: "192px 192px",
           }}
         />
-
-        {/* Vignette for cinematic darkening at edges */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -63,8 +72,6 @@ function LoginPage() {
               "radial-gradient(ellipse at center, transparent 35%, oklch(0.08 0.010 250 / 0.65) 100%)",
           }}
         />
-
-        {/* Ambient lighting — repositioned for navy feel */}
         <div
           className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-35"
           style={{
@@ -79,15 +86,11 @@ function LoginPage() {
             filter: "blur(70px)",
           }}
         />
-
-        {/* Vertical brushed accent */}
         <div className="absolute top-0 right-0 bottom-0 w-px bg-gradient-to-b from-transparent via-accent/50 to-transparent" />
-        {/* Horizontal hairlines for architectural framing */}
         <div className="absolute top-12 left-12 right-12 h-px bg-white/[0.06]" />
         <div className="absolute bottom-12 left-12 right-12 h-px bg-white/[0.06]" />
 
         <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full">
-          {/* Brand */}
           <div className="flex items-center gap-3">
             <div className="relative flex h-11 w-11 items-center justify-center rounded-md surface-charcoal border border-white/10">
               <div className="absolute inset-0 rounded-md bg-gradient-accent opacity-25" />
@@ -99,7 +102,6 @@ function LoginPage() {
             </div>
           </div>
 
-          {/* Headline — refined hierarchy */}
           <div className="space-y-9 max-w-xl">
             <div>
               <div className="flex items-center gap-3 mb-7">
@@ -109,25 +111,18 @@ function LoginPage() {
                 </span>
               </div>
               <h2 className="font-display text-[44px] xl:text-[60px] font-light leading-[1.02] tracking-[-0.028em]">
-                Private AI infrastructure
+                Create your secure
                 <br />
-                for{" "}
-                <em
-                  className="text-accent not-italic font-normal"
-                  style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50' }}
-                >
-                  mortgage content
-                </em>
+                operator access
                 <br />
-                operations.
+                for mortgage content.
               </h2>
             </div>
             <p className="text-white/55 text-[15px] leading-[1.75] font-light max-w-md">
-              A unified command system for knowledge, rules, content generation,
-              DM keyword routing, review, calendar, and export.
+              Account onboarding for internal team members managing knowledge, generation,
+              review, and distribution workflows.
             </p>
 
-            {/* Module list */}
             <div className="pt-6 border-t border-white/10">
               <div className="font-mono text-[10px] tracking-[0.22em] uppercase text-white/35 mb-4">
                 System Modules
@@ -143,9 +138,8 @@ function LoginPage() {
             </div>
           </div>
 
-          {/* Footer */}
           <div className="flex items-end justify-between text-[11px] text-white/40 font-mono tracking-wider">
-            <div>Jeffrey Ben-Davis · NMLS #320841 · Equal Housing Lender</div>
+            <div>Jeffrey Ben-Davis Â· NMLS #320841 Â· Equal Housing Lender</div>
             <div className="flex items-center gap-2 text-accent/70">
               <span className="h-1 w-1 rounded-full bg-accent/70 animate-pulse" />
               SECURE / TLS 1.3
@@ -154,7 +148,6 @@ function LoginPage() {
         </div>
       </div>
 
-      {/* Right — sign-in form */}
       <div className="flex-1 flex items-center justify-center px-6 py-12 relative texture-grain">
         <div className="absolute inset-0 bg-grid-architectural opacity-[0.55] pointer-events-none" />
         <div
@@ -164,7 +157,6 @@ function LoginPage() {
               "radial-gradient(ellipse at top right, oklch(0.62 0.085 65 / 0.10), transparent 60%)",
           }}
         />
-        {/* Vignette on the right too */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -189,14 +181,28 @@ function LoginPage() {
             </span>
           </div>
           <h1 className="font-display text-[40px] font-light tracking-[-0.025em] leading-[1.04]">
-            Sign in to the system
+            Register an account
           </h1>
           <p className="mt-4 text-[14px] text-muted-foreground leading-relaxed max-w-[380px]">
-            Authorized personnel only. All sessions are monitored and audit-logged
-            against compliance policy.
+            Create an internal account for team access. Registration is currently staged for backend integration.
           </p>
 
           <form onSubmit={submit} className="mt-9 space-y-4">
+            <div>
+              <label className="block font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                Full name
+              </label>
+              <div className="kl-input-wrap">
+                <User className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+                <input
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="text-[14px]"
+                />
+              </div>
+            </div>
+
             <div>
               <label className="block font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground mb-2">
                 Email address
@@ -227,17 +233,19 @@ function LoginPage() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-[13px] pt-1">
-              <label className="flex items-center gap-2 text-muted-foreground cursor-pointer select-none">
-                <input type="checkbox" className="rounded border-input accent-[oklch(0.62_0.085_65)]" />
-                Remember device
+            <div>
+              <label className="block font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                Confirm password
               </label>
-              <Link
-                to="/register"
-                className="text-accent font-medium hover:underline underline-offset-4 decoration-accent/40"
-              >
-                Create account
-              </Link>
+              <div className="kl-input-wrap">
+                <Lock className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="text-[14px]"
+                />
+              </div>
             </div>
 
             <button
@@ -248,19 +256,19 @@ function LoginPage() {
               {loading ? (
                 <span className="inline-flex items-center gap-2">
                   <span className="h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                  Authenticating…
+                  Creating accountâ€¦
                 </span>
               ) : (
                 <>
-                  Enter System
+                  Register
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" strokeWidth={1.75} />
                 </>
               )}
             </button>
 
-            {authNotice && (
+            {notice && (
               <p className="rounded-md border border-warning/40 bg-warning/10 px-3 py-2 text-[12px] text-warning">
-                {authNotice}
+                {notice}
               </p>
             )}
 
@@ -271,9 +279,9 @@ function LoginPage() {
               <span>Internal Access Only</span>
             </div>
             <p className="text-center text-[12px] text-muted-foreground">
-              Need an account?{" "}
-              <Link to="/register" className="text-accent hover:underline underline-offset-2">
-                Register here
+              Already have an account?{" "}
+              <Link to="/" className="text-accent hover:underline underline-offset-2">
+                Back to sign in
               </Link>
             </p>
           </form>
@@ -282,3 +290,4 @@ function LoginPage() {
     </div>
   );
 }
+
