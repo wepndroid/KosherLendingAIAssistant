@@ -37,7 +37,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-background lg:flex-row-reverse signin-flat">
+    <div className="min-h-screen flex bg-background signin-flat">
       <div className="hidden lg:flex lg:w-[58%] xl:w-[55%] bg-gradient-cinematic text-white relative overflow-hidden texture-grain">
         <div className="absolute inset-0 opacity-[0.10] pointer-events-none bg-grid-fine" />
         <div className="absolute top-0 right-0 bottom-0 w-px bg-gradient-to-b from-transparent via-accent/50 to-transparent" />
