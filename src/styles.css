@@ -335,193 +335,93 @@
     animation: progress-indeterminate 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
-  /* ====== Brushed-metal buttons ====== */
-  .btn-cinematic {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border-radius: 0.5rem;
-    padding: 0.625rem 1.125rem;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.005em;
-    color: oklch(0.97 0.005 80);
-    background:
-      radial-gradient(circle at 16% -28%, oklch(0.63 0.15 152 / 0.26), transparent 58%),
-      linear-gradient(180deg,
-        oklch(0.34 0.04 250) 0%,
-        oklch(0.26 0.036 255) 52%,
-        oklch(0.2 0.03 258) 100%);
-    border: 1px solid oklch(0.48 0.1 150 / 0.58);
-    box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.10),
-      inset 0 -1px 0 oklch(0 0 0 / 0.30),
-      0 1px 2px oklch(0 0 0 / 0.22),
-      0 10px 24px -10px oklch(0.16 0.02 260 / 0.5),
-      0 14px 36px -14px oklch(0.52 0.13 145 / 0.34);
-    transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-                box-shadow 180ms ease,
-                background 200ms ease,
-                border-color 200ms ease;
-    overflow: hidden;
-    isolation: isolate;
-  }
-  .btn-cinematic::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(105deg, transparent 35%, oklch(1 0 0 / 0.35) 50%, transparent 65%);
-    transform: translateX(-130%) skewX(-20deg);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .btn-cinematic > * { position: relative; z-index: 1; }
-  .btn-cinematic:hover {
-    background:
-      radial-gradient(circle at 16% -28%, oklch(0.65 0.16 152 / 0.36), transparent 58%),
-      linear-gradient(180deg,
-        oklch(0.38 0.045 248) 0%,
-        oklch(0.28 0.04 254) 55%,
-        oklch(0.22 0.033 258) 100%);
-    box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.14),
-      inset 0 -1px 0 oklch(0 0 0 / 0.32),
-      0 2px 6px oklch(0 0 0 / 0.23),
-      0 14px 34px -12px oklch(0.515 0.135 145 / 0.38);
-    border-color: oklch(0.62 0.15 148 / 0.6);
-  }
-  .btn-cinematic:hover::before {
-    animation: kl-sheen-pass 720ms ease-out;
-  }
-  .btn-cinematic:focus-visible {
-    outline: none;
-    box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.12),
-      0 0 0 2px var(--background),
-      0 0 0 4px oklch(0.515 0.135 145 / 0.55);
-  }
-  .btn-cinematic:active {
-    transform: translateY(1px);
-    box-shadow:
-      inset 0 1px 2px oklch(0 0 0 / 0.35),
-      inset 0 -1px 0 oklch(1 0 0 / 0.04),
-      0 1px 1px oklch(0 0 0 / 0.18);
-  }
-  .btn-cinematic:disabled { opacity: 0.55; cursor: not-allowed; }
-
+  /* ====== Soft-elevation buttons ====== */
+  .btn-cinematic,
   .btn-cinematic-secondary {
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: 0.5rem;
+    border-radius: 999px;
     padding: 0.625rem 1.125rem;
     font-size: 0.8125rem;
     font-weight: 500;
-    color: var(--foreground);
-    background:
-      radial-gradient(circle at 85% -32%, oklch(0.63 0.15 152 / 0.12), transparent 58%),
-      linear-gradient(180deg,
-        oklch(1 0.002 80) 0%,
-        oklch(0.965 0.008 75) 100%);
-    border: 1px solid oklch(0.86 0.008 70);
+    letter-spacing: 0.005em;
+    color: oklch(0.3 0.01 260);
+    background: oklch(0.92 0.003 85);
+    border: none;
     box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.85),
-      inset 0 -1px 0 oklch(0 0 0 / 0.04),
-      0 1px 2px oklch(0.2 0.01 50 / 0.08),
-      0 8px 22px -12px oklch(0.2 0.01 50 / 0.16);
-    transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-                box-shadow 180ms ease,
-                background 200ms ease,
-                border-color 200ms ease;
-    overflow: hidden;
+      -2px 0.7065919983928324px 0.7065919983928324px -0.5416666666666666px rgba(0, 0, 0, 0.1),
+      0px 1.8065619053231785px 1.8065619053231785px -1.0833333333333333px rgba(0, 0, 0, 0.09),
+      0px 3.6217592146567767px 3.6217592146567767px -1.625px rgba(0, 0, 0, 0.09),
+      0px 6.8655999097303715px 6.8655999097303715px -2.1666666666666665px rgba(0, 0, 0, 0.09),
+      0px 13.646761411524492px 13.646761411524492px -2.7083333333333335px rgba(0, 0, 0, 0.08),
+      0px 30px 30px -3.25px rgba(0, 0, 0, 0.05),
+      inset 0px 3px 1px 0px rgb(255, 255, 255);
+    transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 180ms ease;
   }
-  .btn-cinematic-secondary::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: repeating-linear-gradient(
-      90deg,
-      oklch(0 0 0 / 0.012) 0 1px,
-      transparent 1px 3px
-    );
-    pointer-events: none;
-  }
+  .btn-cinematic:hover,
   .btn-cinematic-secondary:hover {
-    background:
-      radial-gradient(circle at 85% -32%, oklch(0.63 0.15 152 / 0.22), transparent 58%),
-      linear-gradient(180deg,
-        oklch(1 0 0) 0%,
-        oklch(0.97 0.009 75) 100%);
-    border-color: oklch(0.515 0.135 145 / 0.52);
+    transform: translateY(-1px);
     box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.9),
-      0 2px 5px oklch(0.2 0.01 50 / 0.09),
-      0 10px 26px -11px oklch(0.515 0.135 145 / 0.28);
+      -2px 0.7065919983928324px 0.7065919983928324px -0.5416666666666666px rgba(0, 0, 0, 0.12),
+      0px 1.8065619053231785px 1.8065619053231785px -1.0833333333333333px rgba(0, 0, 0, 0.1),
+      0px 3.6217592146567767px 3.6217592146567767px -1.625px rgba(0, 0, 0, 0.1),
+      0px 6.8655999097303715px 6.8655999097303715px -2.1666666666666665px rgba(0, 0, 0, 0.1),
+      0px 13.646761411524492px 13.646761411524492px -2.7083333333333335px rgba(0, 0, 0, 0.09),
+      0px 30px 30px -3.25px rgba(0, 0, 0, 0.07),
+      inset 0px 3px 1px 0px rgb(255, 255, 255);
   }
+  .btn-cinematic:focus-visible,
   .btn-cinematic-secondary:focus-visible {
     outline: none;
     box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.85),
-      0 0 0 2px var(--background),
-      0 0 0 4px oklch(0.515 0.135 145 / 0.5);
+      0 0 0 3px oklch(0.515 0.135 145 / 0.25),
+      -2px 0.7065919983928324px 0.7065919983928324px -0.5416666666666666px rgba(0, 0, 0, 0.1),
+      0px 1.8065619053231785px 1.8065619053231785px -1.0833333333333333px rgba(0, 0, 0, 0.09),
+      0px 3.6217592146567767px 3.6217592146567767px -1.625px rgba(0, 0, 0, 0.09),
+      0px 6.8655999097303715px 6.8655999097303715px -2.1666666666666665px rgba(0, 0, 0, 0.09),
+      0px 13.646761411524492px 13.646761411524492px -2.7083333333333335px rgba(0, 0, 0, 0.08),
+      0px 30px 30px -3.25px rgba(0, 0, 0, 0.05),
+      inset 0px 3px 1px 0px rgb(255, 255, 255);
   }
+  .btn-cinematic:active,
   .btn-cinematic-secondary:active {
-    transform: translateY(1px);
-    background: oklch(0.93 0.008 75);
-    box-shadow: inset 0 1px 2px oklch(0 0 0 / 0.08);
+    transform: translateY(0);
+  }
+  .btn-cinematic:disabled,
+  .btn-cinematic-secondary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  .btn-cinematic-secondary {
+    color: oklch(0.33 0.008 260);
+    background: oklch(0.925 0.002 85);
   }
 
-  /* Apply cinematic styling globally to shadcn primary/secondary/outline buttons */
+  /* Apply soft-elevation styling globally to shadcn primary/secondary buttons */
   button[data-slot="button"][class*="bg-primary"],
-  button.bg-primary {
-    background:
-      linear-gradient(180deg,
-        oklch(0.30 0.014 50) 0%,
-        oklch(0.235 0.035 256) 50%,
-        oklch(0.18 0.010 50) 100%) !important;
-    border: 1px solid oklch(0.14 0.008 50);
-    box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.10),
-      inset 0 -1px 0 oklch(0 0 0 / 0.30),
-      0 1px 2px oklch(0 0 0 / 0.18),
-      0 6px 18px -8px oklch(0 0 0 / 0.30);
-    transition: all 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  button[data-slot="button"][class*="bg-primary"]:hover,
-  button.bg-primary:hover {
-    background:
-      linear-gradient(180deg,
-        oklch(0.34 0.016 55) 0%,
-        oklch(0.26 0.014 50) 55%,
-        oklch(0.20 0.010 50) 100%) !important;
-    border-color: oklch(0.515 0.135 145 / 0.5);
-    box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.14),
-      0 10px 28px -10px oklch(0.515 0.135 145 / 0.28);
-  }
-  button[data-slot="button"][class*="bg-primary"]:active,
-  button.bg-primary:active { transform: translateY(1px); }
-
+  button.bg-primary,
   button[data-slot="button"][class*="bg-secondary"],
   button.bg-secondary {
-    background: linear-gradient(180deg, oklch(0.99 0.004 80), oklch(0.95 0.008 75)) !important;
-    border: 1px solid oklch(0.86 0.008 70);
+    background: oklch(0.92 0.003 85) !important;
+    background-image: none !important;
+    border: none !important;
+    color: oklch(0.3 0.01 260) !important;
     box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.85),
-      0 1px 2px oklch(0.2 0.01 50 / 0.06);
-    transition: all 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      -2px 0.7065919983928324px 0.7065919983928324px -0.5416666666666666px rgba(0, 0, 0, 0.1),
+      0px 1.8065619053231785px 1.8065619053231785px -1.0833333333333333px rgba(0, 0, 0, 0.09),
+      0px 3.6217592146567767px 3.6217592146567767px -1.625px rgba(0, 0, 0, 0.09),
+      0px 6.8655999097303715px 6.8655999097303715px -2.1666666666666665px rgba(0, 0, 0, 0.09),
+      0px 13.646761411524492px 13.646761411524492px -2.7083333333333335px rgba(0, 0, 0, 0.08),
+      0px 30px 30px -3.25px rgba(0, 0, 0, 0.05),
+      inset 0px 3px 1px 0px rgb(255, 255, 255);
+    transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 180ms ease;
   }
+  button[data-slot="button"][class*="bg-primary"]:hover,
+  button.bg-primary:hover,
   button[data-slot="button"][class*="bg-secondary"]:hover,
   button.bg-secondary:hover {
-    border-color: oklch(0.515 0.135 145 / 0.45);
-    box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.9),
-      0 8px 22px -10px oklch(0.515 0.135 145 / 0.22);
+    transform: translateY(-1px);
   }
 
   /* ============================================================
@@ -531,42 +431,43 @@
   /* Card — the standard architectural surface */
   .kl-card {
     position: relative;
-    overflow: hidden;
-    background:
-      radial-gradient(circle at 110% -34%, oklch(0.64 0.15 150 / 0.12), transparent 58%),
-      linear-gradient(180deg, oklch(0.998 0.002 80) 0%, oklch(0.97 0.006 78) 100%);
-    border: 1px solid oklch(0.885 0.009 70);
-    border-radius: 0.5rem;
+    background: oklch(0.93 0.003 85);
+    background-image: none;
+    border: none;
+    border-radius: 1rem;
     box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.82),
-      0 1px 2px oklch(0.18 0.012 60 / 0.05),
-      0 8px 22px -12px oklch(0.18 0.012 60 / 0.12);
-    transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  .kl-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(120deg, transparent 0%, oklch(1 0 0 / 0.22) 22%, transparent 40%);
-    opacity: 0.5;
+      rgba(0, 0, 0, 0.08) 0px 0.706592px 0.706592px -0.666667px,
+      rgba(0, 0, 0, 0.08) 0px 1.80656px 1.80656px -1.33333px,
+      rgba(0, 0, 0, 0.07) 0px 3.62176px 3.62176px -2px,
+      rgba(0, 0, 0, 0.07) 0px 6.8656px 6.8656px -2.66667px,
+      rgba(0, 0, 0, 0.05) 0px 13.6468px 13.6468px -3.33333px,
+      rgba(0, 0, 0, 0.02) 0px 30px 30px -4px,
+      rgb(255, 255, 255) 0px 3px 1px 0px inset;
+    transition: transform 200ms ease, box-shadow 200ms ease;
   }
   .kl-card-interactive {
     cursor: pointer;
   }
   .kl-card-interactive:hover {
-    border-color: oklch(0.515 0.135 145 / 0.40);
+    transform: translateY(-1px);
     box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.7),
-      0 2px 5px oklch(0.18 0.012 60 / 0.08),
-      0 16px 36px -12px oklch(0.515 0.135 145 / 0.24);
-    transform: translateY(-2px);
+      rgba(0, 0, 0, 0.08) 0px 0.706592px 0.706592px -0.666667px,
+      rgba(0, 0, 0, 0.08) 0px 1.80656px 1.80656px -1.33333px,
+      rgba(0, 0, 0, 0.07) 0px 3.62176px 3.62176px -2px,
+      rgba(0, 0, 0, 0.07) 0px 6.8656px 6.8656px -2.66667px,
+      rgba(0, 0, 0, 0.06) 0px 13.6468px 13.6468px -3.33333px,
+      rgba(0, 0, 0, 0.04) 0px 30px 30px -4px,
+      rgb(255, 255, 255) 0px 3px 1px 0px inset;
   }
   .kl-card-elevated {
     box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.7),
-      0 1px 2px oklch(0.18 0.012 60 / 0.06),
-      0 14px 36px -10px oklch(0.18 0.012 60 / 0.14);
+      rgba(0, 0, 0, 0.08) 0px 0.706592px 0.706592px -0.666667px,
+      rgba(0, 0, 0, 0.08) 0px 1.80656px 1.80656px -1.33333px,
+      rgba(0, 0, 0, 0.07) 0px 3.62176px 3.62176px -2px,
+      rgba(0, 0, 0, 0.07) 0px 6.8656px 6.8656px -2.66667px,
+      rgba(0, 0, 0, 0.05) 0px 13.6468px 13.6468px -3.33333px,
+      rgba(0, 0, 0, 0.02) 0px 30px 30px -4px,
+      rgb(255, 255, 255) 0px 3px 1px 0px inset;
   }
 
   /* Modal shell */
