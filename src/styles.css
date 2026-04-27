@@ -431,7 +431,7 @@
   /* Card — the standard architectural surface */
   .kl-card {
     position: relative;
-    background: oklch(0.93 0.003 85);
+    background: transparent;
     background-image: none;
     border: none;
     border-radius: 1rem;

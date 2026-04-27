@@ -132,7 +132,7 @@ export function AppLayout() {
           <div className="divider-brushed" />
         </header>
 
-        <main className="w-full max-w-[1600px] flex-1 px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
+        <main className="w-full max-w-[1600px] flex-1 bg-white px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
           <div key={location.pathname} className="page-enter">
             <Outlet />
           </div>
