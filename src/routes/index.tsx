@@ -79,7 +79,7 @@ function LoginPage() {
 
       <div className="flex-1 flex items-center justify-center px-6 py-12 relative texture-grain">
         <div className="absolute inset-0 bg-grid-architectural opacity-[0.55] pointer-events-none" />
-        <div className="relative w-full max-w-[420px]">
+        <div className="relative w-full max-w-[420px] kl-card kl-card-elevated p-6 sm:p-7">
           <div className="lg:hidden flex items-center gap-3 mb-10">
             <div className="flex h-10 w-10 items-center justify-center rounded-md surface-charcoal border border-border">
               <Command className="h-4 w-4 text-accent" strokeWidth={1.5} />

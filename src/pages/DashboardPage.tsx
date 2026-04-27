@@ -92,7 +92,7 @@ export function DashboardPage() {
 
       <section className="grid gap-3 grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         {KPI_CARDS.map((item) => (
-          <article key={item.label} className="kl-card p-4">
+          <article key={item.label} className="kl-card kl-card-interactive p-4">
             <div className="flex items-start justify-between">
               <div className="flex h-8 w-8 items-center justify-center rounded border border-border bg-card">
                 <item.icon className="h-4 w-4 text-foreground/70" strokeWidth={1.75} />
@@ -111,7 +111,7 @@ export function DashboardPage() {
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-        <article className="kl-card p-6">
+        <article className="kl-card kl-card-elevated p-6">
           <div className="mb-5 flex items-center justify-between border-b border-border pb-4">
             <div>
               <p className="kl-eyebrow">Pipeline</p>
@@ -135,7 +135,7 @@ export function DashboardPage() {
           </div>
         </article>
 
-        <article className="kl-card p-6">
+        <article className="kl-card kl-card-elevated p-6">
           <div className="mb-5 border-b border-border pb-4">
             <p className="kl-eyebrow">Today</p>
             <h3 className="mt-1 font-display text-[22px] font-medium">Priority Queue</h3>
@@ -152,7 +152,7 @@ export function DashboardPage() {
       </section>
 
       <section className="grid gap-6 lg:grid-cols-2">
-        <article className="kl-card p-6">
+        <article className="kl-card kl-card-elevated p-6">
           <div className="mb-5 border-b border-border pb-4">
             <p className="kl-eyebrow">Governance</p>
             <h3 className="mt-1 font-display text-[22px] font-medium">Compliance Snapshot</h3>
@@ -172,7 +172,7 @@ export function DashboardPage() {
           </div>
         </article>
 
-        <article className="kl-card p-6">
+        <article className="kl-card kl-card-elevated p-6">
           <div className="mb-5 border-b border-border pb-4">
             <p className="kl-eyebrow">Team Feed</p>
             <h3 className="mt-1 font-display text-[22px] font-medium">Recent Activity</h3>

@@ -293,6 +293,12 @@
   }
   .panel-slide-in { animation: panel-slide-in 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 
+  @keyframes kl-sheen-pass {
+    0% { transform: translateX(-130%) skewX(-20deg); opacity: 0; }
+    30% { opacity: 0.22; }
+    100% { transform: translateX(190%) skewX(-20deg); opacity: 0; }
+  }
+
   @keyframes shimmer-sweep {
     0%   { background-position: -200% 0; }
     100% { background-position: 200% 0; }
@@ -336,23 +342,25 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: 0.375rem;
+    border-radius: 0.5rem;
     padding: 0.625rem 1.125rem;
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.005em;
     color: oklch(0.97 0.005 80);
     background:
+      radial-gradient(circle at 16% -28%, oklch(0.63 0.15 152 / 0.26), transparent 58%),
       linear-gradient(180deg,
-        oklch(0.30 0.014 50) 0%,
-        oklch(0.235 0.035 256) 50%,
-        oklch(0.18 0.010 50) 100%);
-    border: 1px solid oklch(0.14 0.008 50);
+        oklch(0.34 0.04 250) 0%,
+        oklch(0.26 0.036 255) 52%,
+        oklch(0.2 0.03 258) 100%);
+    border: 1px solid oklch(0.48 0.1 150 / 0.58);
     box-shadow:
       inset 0 1px 0 oklch(1 0 0 / 0.10),
       inset 0 -1px 0 oklch(0 0 0 / 0.30),
-      0 1px 2px oklch(0 0 0 / 0.18),
-      0 6px 18px -8px oklch(0 0 0 / 0.30);
+      0 1px 2px oklch(0 0 0 / 0.22),
+      0 10px 24px -10px oklch(0.16 0.02 260 / 0.5),
+      0 14px 36px -14px oklch(0.52 0.13 145 / 0.34);
     transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
                 box-shadow 180ms ease,
                 background 200ms ease,
@@ -364,28 +372,29 @@
     content: "";
     position: absolute;
     inset: 0;
-    background-image: repeating-linear-gradient(
-      90deg,
-      oklch(1 0 0 / 0.014) 0 1px,
-      transparent 1px 3px
-    );
-    opacity: 0.7;
+    background: linear-gradient(105deg, transparent 35%, oklch(1 0 0 / 0.35) 50%, transparent 65%);
+    transform: translateX(-130%) skewX(-20deg);
+    opacity: 0;
     pointer-events: none;
     z-index: 0;
   }
   .btn-cinematic > * { position: relative; z-index: 1; }
   .btn-cinematic:hover {
     background:
+      radial-gradient(circle at 16% -28%, oklch(0.65 0.16 152 / 0.36), transparent 58%),
       linear-gradient(180deg,
-        oklch(0.34 0.016 55) 0%,
-        oklch(0.26 0.014 50) 55%,
-        oklch(0.20 0.010 50) 100%);
+        oklch(0.38 0.045 248) 0%,
+        oklch(0.28 0.04 254) 55%,
+        oklch(0.22 0.033 258) 100%);
     box-shadow:
       inset 0 1px 0 oklch(1 0 0 / 0.14),
       inset 0 -1px 0 oklch(0 0 0 / 0.32),
-      0 2px 4px oklch(0 0 0 / 0.20),
-      0 10px 28px -10px oklch(0.515 0.135 145 / 0.25);
-    border-color: oklch(0.515 0.135 145 / 0.5);
+      0 2px 6px oklch(0 0 0 / 0.23),
+      0 14px 34px -12px oklch(0.515 0.135 145 / 0.38);
+    border-color: oklch(0.62 0.15 148 / 0.6);
+  }
+  .btn-cinematic:hover::before {
+    animation: kl-sheen-pass 720ms ease-out;
   }
   .btn-cinematic:focus-visible {
     outline: none;
@@ -409,20 +418,22 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: 0.375rem;
+    border-radius: 0.5rem;
     padding: 0.625rem 1.125rem;
     font-size: 0.8125rem;
     font-weight: 500;
     color: var(--foreground);
     background:
+      radial-gradient(circle at 85% -32%, oklch(0.63 0.15 152 / 0.12), transparent 58%),
       linear-gradient(180deg,
-        oklch(0.99 0.004 80) 0%,
-        oklch(0.95 0.008 75) 100%);
+        oklch(1 0.002 80) 0%,
+        oklch(0.965 0.008 75) 100%);
     border: 1px solid oklch(0.86 0.008 70);
     box-shadow:
       inset 0 1px 0 oklch(1 0 0 / 0.85),
       inset 0 -1px 0 oklch(0 0 0 / 0.04),
-      0 1px 2px oklch(0.2 0.01 50 / 0.06);
+      0 1px 2px oklch(0.2 0.01 50 / 0.08),
+      0 8px 22px -12px oklch(0.2 0.01 50 / 0.16);
     transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
                 box-shadow 180ms ease,
                 background 200ms ease,
@@ -442,14 +453,15 @@
   }
   .btn-cinematic-secondary:hover {
     background:
+      radial-gradient(circle at 85% -32%, oklch(0.63 0.15 152 / 0.22), transparent 58%),
       linear-gradient(180deg,
         oklch(1 0 0) 0%,
-        oklch(0.96 0.008 75) 100%);
-    border-color: oklch(0.515 0.135 145 / 0.45);
+        oklch(0.97 0.009 75) 100%);
+    border-color: oklch(0.515 0.135 145 / 0.52);
     box-shadow:
       inset 0 1px 0 oklch(1 0 0 / 0.9),
-      0 2px 4px oklch(0.2 0.01 50 / 0.08),
-      0 8px 22px -10px oklch(0.515 0.135 145 / 0.20);
+      0 2px 5px oklch(0.2 0.01 50 / 0.09),
+      0 10px 26px -11px oklch(0.515 0.135 145 / 0.28);
   }
   .btn-cinematic-secondary:focus-visible {
     outline: none;
@@ -519,15 +531,25 @@
   /* Card — the standard architectural surface */
   .kl-card {
     position: relative;
+    overflow: hidden;
     background:
-      linear-gradient(180deg, oklch(0.995 0.003 80) 0%, oklch(0.965 0.005 78) 100%);
-    border: 1px solid oklch(0.89 0.008 70);
+      radial-gradient(circle at 110% -34%, oklch(0.64 0.15 150 / 0.12), transparent 58%),
+      linear-gradient(180deg, oklch(0.998 0.002 80) 0%, oklch(0.97 0.006 78) 100%);
+    border: 1px solid oklch(0.885 0.009 70);
     border-radius: 0.5rem;
     box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.6),
-      0 1px 1px oklch(0.18 0.012 60 / 0.04),
-      0 4px 14px -6px oklch(0.18 0.012 60 / 0.07);
+      inset 0 1px 0 oklch(1 0 0 / 0.82),
+      0 1px 2px oklch(0.18 0.012 60 / 0.05),
+      0 8px 22px -12px oklch(0.18 0.012 60 / 0.12);
     transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .kl-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(120deg, transparent 0%, oklch(1 0 0 / 0.22) 22%, transparent 40%);
+    opacity: 0.5;
   }
   .kl-card-interactive {
     cursor: pointer;
@@ -536,9 +558,9 @@
     border-color: oklch(0.515 0.135 145 / 0.40);
     box-shadow:
       inset 0 1px 0 oklch(1 0 0 / 0.7),
-      0 2px 4px oklch(0.18 0.012 60 / 0.06),
-      0 12px 30px -10px oklch(0.515 0.135 145 / 0.18);
-    transform: translateY(-1px);
+      0 2px 5px oklch(0.18 0.012 60 / 0.08),
+      0 16px 36px -12px oklch(0.515 0.135 145 / 0.24);
+    transform: translateY(-2px);
   }
   .kl-card-elevated {
     box-shadow:
