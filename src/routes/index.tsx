@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Command, Lock, Mail, Shield } from "lucide-react";
 import { useState } from "react";
 
@@ -77,8 +77,7 @@ function LoginPage() {
         </div>
       </div>
 
-      <div className="flex-1 flex items-center justify-center px-6 py-12 relative texture-grain">
-        <div className="absolute inset-0 bg-grid-architectural opacity-[0.55] pointer-events-none" />
+      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-white">
         <div className="relative w-full max-w-[420px] kl-card kl-card-elevated p-6 sm:p-7">
           <div className="lg:hidden flex items-center gap-3 mb-10">
             <div className="flex h-10 w-10 items-center justify-center rounded-md surface-charcoal border border-border">
@@ -118,7 +117,9 @@ function LoginPage() {
                 <input type="checkbox" className="rounded border-input accent-[oklch(0.62_0.085_65)]" />
                 Remember device
               </label>
-              <span className="text-muted-foreground">MVP access mode</span>
+              <Link to="/register" className="text-muted-foreground hover:text-foreground transition-colors">
+                Sign up
+              </Link>
             </div>
 
             <button type="submit" disabled={loading} className="btn-cinematic group w-full mt-3 py-3.5 text-[14px] tracking-wide">

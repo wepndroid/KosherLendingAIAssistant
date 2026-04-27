@@ -1,11 +1,8 @@
-import { Link, createFileRoute, redirect } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { Lock, Mail, Shield, Command, ArrowRight, User } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/register")({
-  beforeLoad: () => {
-    throw redirect({ to: "/" });
-  },
   component: RegisterPage,
   head: () => ({
     meta: [
