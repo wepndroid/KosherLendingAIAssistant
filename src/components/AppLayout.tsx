@@ -101,7 +101,7 @@ export function AppLayout() {
 
               <div className="hidden h-9 w-px bg-gradient-to-b from-transparent via-border to-transparent md:block" />
 
-              <div className="btn-cinematic-secondary hidden h-7 items-center gap-2 px-3 text-[10px] uppercase tracking-[0.16em] lg:flex">
+              <div className="btn-cinematic-secondary hidden h-7 items-center gap-2 rounded-md px-3 text-[10px] uppercase tracking-[0.16em] lg:flex">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-50" />
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-success" />
@@ -111,7 +111,7 @@ export function AppLayout() {
               </div>
             </div>
 
-            <div className="hidden w-72 items-center gap-2.5 rounded-full bg-[oklch(0.92_0.003_85)] px-3 py-2 shadow-[-2px_0.7065919983928324px_0.7065919983928324px_-0.5416666666666666px_rgba(0,0,0,0.1),0px_1.8065619053231785px_1.8065619053231785px_-1.0833333333333333px_rgba(0,0,0,0.09),0px_3.6217592146567767px_3.6217592146567767px_-1.625px_rgba(0,0,0,0.09),0px_6.8655999097303715px_6.8655999097303715px_-2.1666666666666665px_rgba(0,0,0,0.09),0px_13.646761411524492px_13.646761411524492px_-2.7083333333333335px_rgba(0,0,0,0.08),0px_30px_30px_-3.25px_rgba(0,0,0,0.05),inset_0px_3px_1px_0px_rgb(255,255,255)] transition-all focus-within:shadow-[0_0_0_3px_oklch(0.515_0.135_145_/_0.25),-2px_0.7065919983928324px_0.7065919983928324px_-0.5416666666666666px_rgba(0,0,0,0.1),0px_1.8065619053231785px_1.8065619053231785px_-1.0833333333333333px_rgba(0,0,0,0.09),0px_3.6217592146567767px_3.6217592146567767px_-1.625px_rgba(0,0,0,0.09),0px_6.8655999097303715px_6.8655999097303715px_-2.1666666666666665px_rgba(0,0,0,0.09),0px_13.646761411524492px_13.646761411524492px_-2.7083333333333335px_rgba(0,0,0,0.08),0px_30px_30px_-3.25px_rgba(0,0,0,0.05),inset_0px_3px_1px_0px_rgb(255,255,255)] md:flex lg:w-80">
+            <div className="hidden w-72 items-center gap-2.5 rounded-md bg-[oklch(0.92_0.003_85)] px-3 py-2 shadow-[-2px_0.7065919983928324px_0.7065919983928324px_-0.5416666666666666px_rgba(0,0,0,0.1),0px_1.8065619053231785px_1.8065619053231785px_-1.0833333333333333px_rgba(0,0,0,0.09),0px_3.6217592146567767px_3.6217592146567767px_-1.625px_rgba(0,0,0,0.09),0px_6.8655999097303715px_6.8655999097303715px_-2.1666666666666665px_rgba(0,0,0,0.09),0px_13.646761411524492px_13.646761411524492px_-2.7083333333333335px_rgba(0,0,0,0.08),0px_30px_30px_-3.25px_rgba(0,0,0,0.05),inset_0px_3px_1px_0px_rgb(255,255,255)] transition-all focus-within:shadow-[0_0_0_3px_oklch(0.515_0.135_145_/_0.25),-2px_0.7065919983928324px_0.7065919983928324px_-0.5416666666666666px_rgba(0,0,0,0.1),0px_1.8065619053231785px_1.8065619053231785px_-1.0833333333333333px_rgba(0,0,0,0.09),0px_3.6217592146567767px_3.6217592146567767px_-1.625px_rgba(0,0,0,0.09),0px_6.8655999097303715px_6.8655999097303715px_-2.1666666666666665px_rgba(0,0,0,0.09),0px_13.646761411524492px_13.646761411524492px_-2.7083333333333335px_rgba(0,0,0,0.08),0px_30px_30px_-3.25px_rgba(0,0,0,0.05),inset_0px_3px_1px_0px_rgb(255,255,255)] md:flex lg:w-80">
               <Search className="h-3.5 w-3.5 text-muted-foreground" strokeWidth={1.75} />
               <input placeholder="Search borrower, loan ID, partner..." className="flex-1 bg-transparent text-[13px] outline-none placeholder:text-muted-foreground/70" />
               <kbd className="hidden rounded bg-white/50 px-1.5 py-0.5 font-mono text-[9.5px] tracking-wider text-muted-foreground lg:inline-flex">
@@ -219,14 +219,14 @@ function NavSection({ label, items, pathname }: { label: string; items: Readonly
                 className={cn(
                   "group relative flex items-center gap-3 rounded-md px-3 py-2 text-[13px] font-medium transition-all duration-200",
                   active
-                    ? "bg-[oklch(0.92_0.003_85)] text-[oklch(0.3_0.01_260)] shadow-[-2px_0.7065919983928324px_0.7065919983928324px_-0.5416666666666666px_rgba(0,0,0,0.1),0px_1.8065619053231785px_1.8065619053231785px_-1.0833333333333333px_rgba(0,0,0,0.09),0px_3.6217592146567767px_3.6217592146567767px_-1.625px_rgba(0,0,0,0.09),0px_6.8655999097303715px_6.8655999097303715px_-2.1666666666666665px_rgba(0,0,0,0.09),0px_13.646761411524492px_13.646761411524492px_-2.7083333333333335px_rgba(0,0,0,0.08),0px_30px_30px_-3.25px_rgba(0,0,0,0.05),inset_0px_3px_1px_0px_rgb(255,255,255)]"
+                    ? "bg-sidebar-accent/85 text-white shadow-[-2px_0.7065919983928324px_0.7065919983928324px_-0.5416666666666666px_rgba(0,0,0,0.25),0px_1.8065619053231785px_1.8065619053231785px_-1.0833333333333333px_rgba(0,0,0,0.2),0px_3.6217592146567767px_3.6217592146567767px_-1.625px_rgba(0,0,0,0.18),0px_6.8655999097303715px_6.8655999097303715px_-2.1666666666666665px_rgba(0,0,0,0.16),0px_13.646761411524492px_13.646761411524492px_-2.7083333333333335px_rgba(0,0,0,0.14),0px_30px_30px_-3.25px_rgba(0,0,0,0.12),inset_0px_1px_0px_0px_rgba(255,255,255,0.08)]"
                     : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-white",
                 )}
               >
                 <Icon
                   className={cn(
                     "h-4 w-4 shrink-0 transition-colors",
-                    active ? "text-[oklch(0.3_0.01_260)]" : "text-sidebar-foreground/50 group-hover:text-sidebar-foreground/80",
+                    active ? "text-accent" : "text-sidebar-foreground/50 group-hover:text-sidebar-foreground/80",
                   )}
                   strokeWidth={1.5}
                 />
