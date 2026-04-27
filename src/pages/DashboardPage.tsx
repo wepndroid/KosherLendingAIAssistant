@@ -1,239 +1,211 @@
-import { Link } from "@tanstack/react-router";
 import {
-  FileText, Database, Sparkles, KeyRound, ClipboardCheck, Download,
-  Calendar, ArrowUpRight, CheckCircle2, Clock, Upload, TrendingUp,
+  AlertTriangle,
+  ArrowUpRight,
+  BadgeCheck,
+  CalendarClock,
+  CheckCircle2,
+  Clock3,
+  FileCheck2,
+  FileText,
+  Handshake,
+  House,
+  MessagesSquare,
+  ShieldCheck,
+  TrendingUp,
+  Users,
 } from "lucide-react";
-import { RECENT_ACTIVITY } from "@/lib/mock-data";
 
-const STATS = [
-  { label: "Source Documents", value: "47", delta: "+6 this week", icon: FileText, trend: "up" },
-  { label: "Knowledge Chunks", value: "12,408", delta: "+1,240 indexed", icon: Database, trend: "up" },
-  { label: "Generated Posts", value: "318", delta: "+24 today", icon: Sparkles, trend: "up" },
-  { label: "Active DM Keywords", value: "16", delta: "12 ready · 4 pending", icon: KeyRound, trend: "neutral" },
-  { label: "Pending Review", value: "9", delta: "Approval required", icon: ClipboardCheck, trend: "warn" },
-  { label: "Exported Packages", value: "42", delta: "+3 this week", icon: Download, trend: "up" },
-];
-
-const READINESS = [
-  { label: "Knowledge Library", pct: 85 },
-  { label: "DM Keyword Mapping", pct: 70 },
-  { label: "Content Rules", pct: 95 },
-  { label: "Generation Engine", pct: 100 },
-  { label: "Export Workflow", pct: 90 },
-  { label: "Calendar Workflow", pct: 80 },
-];
-
-const ACTIONS = [
-  { label: "Upload more source books", to: "/knowledge", icon: Upload },
-  { label: "Review DM keyword conflicts", to: "/keywords", icon: KeyRound },
-  { label: "Generate first test post", to: "/generator", icon: Sparkles },
-  { label: "Approve pending content", to: "/review", icon: ClipboardCheck },
-  { label: "Export sample package", to: "/export", icon: Download },
-];
+const KPI_CARDS = [
+  { label: "Applications In Pipeline", value: "42", delta: "+6 this week", icon: FileText, tone: "good" },
+  { label: "Pre-Approvals Issued", value: "19", delta: "+4 today", icon: BadgeCheck, tone: "good" },
+  { label: "Loans Funded (MTD)", value: "11", delta: "$6.8M funded", icon: House, tone: "good" },
+  { label: "Rate Locks Expiring < 7d", value: "5", delta: "Needs action", icon: CalendarClock, tone: "warn" },
+  { label: "Conditions Pending", value: "27", delta: "13 due today", icon: FileCheck2, tone: "warn" },
+  { label: "Active Borrower Threads", value: "63", delta: "Median reply 8m", icon: MessagesSquare, tone: "good" },
+] as const;
 
 const PIPELINE = [
-  { label: "Ideas Generated", value: 18 },
-  { label: "Drafts in Review", value: 9 },
-  { label: "Approved", value: 12 },
-  { label: "Scheduled", value: 24 },
-];
+  { stage: "New Inquiry", count: 18, sla: "Under 15 min", owner: "Intake Team" },
+  { stage: "Doc Collection", count: 14, sla: "24-48 hours", owner: "Processing" },
+  { stage: "Underwriting", count: 9, sla: "2-4 business days", owner: "UW Desk" },
+  { stage: "Clear To Close", count: 6, sla: "1-2 business days", owner: "Closing Team" },
+  { stage: "Funded This Week", count: 4, sla: "Completed", owner: "Funding Desk" },
+] as const;
 
-const CORE_METRICS = [
-  { value: "12", label: "Posts / day target", unit: "DAILY" },
-  { value: "77", label: "DM deliverables", unit: "TOTAL" },
-  { value: "7", label: "Content pillars", unit: "ACTIVE" },
-];
+const PRIORITY_TASKS = [
+  "Follow up on 5 rate locks expiring this week.",
+  "Review 3 files flagged for missing income docs.",
+  "Confirm appraisal status for the Benson and Perez loans.",
+  "Send Monday performance update to referral partners.",
+  "Finalize compliance wording for first-time buyer campaign.",
+] as const;
+
+const COMPLIANCE_STATUS = [
+  { label: "Disclosure Coverage", value: "100%", note: "All active files have required disclosures." },
+  { label: "NMLS Signature Audit", value: "Passed", note: "No missing license identifiers in templates." },
+  { label: "Fair Lending Spot Check", value: "In Review", note: "Monthly random sample closes April 30." },
+] as const;
+
+const RECENT_ACTIVITY = [
+  { text: "Benson file moved to underwriting after full doc package received.", time: "8 minutes ago" },
+  { text: "Two new refinance leads assigned to Intake Team queue.", time: "21 minutes ago" },
+  { text: "Partner update sent to 14 real estate agents.", time: "43 minutes ago" },
+  { text: "Rate watch alert triggered for 30-year conforming products.", time: "1 hour ago" },
+] as const;
 
 export function DashboardPage() {
   return (
-    <div className="space-y-8">
-      {/* Hero — cinematic command panel */}
-      <div className="relative overflow-hidden rounded-lg surface-charcoal text-white shadow-elevated texture-grain">
-        <div className="absolute inset-0 bg-grid-fine opacity-40" />
-        <div
-          className="absolute -top-20 -right-20 w-[500px] h-[500px] rounded-full opacity-30 pointer-events-none"
-          style={{
-            background: "radial-gradient(circle, oklch(0.62 0.085 65 / 0.5), transparent 60%)",
-            filter: "blur(50px)",
-          }}
-        />
-
-        <div className="relative grid lg:grid-cols-[1fr_auto] gap-8 p-8 lg:p-10">
-          <div>
-            <div className="text-eyebrow text-accent/90 mb-3">Welcome back, Jeffrey</div>
-            <h2 className="font-display text-[32px] lg:text-[40px] font-light leading-[1.1] tracking-[-0.02em] max-w-2xl">
-              Your content engine is <em className="text-accent not-italic font-normal">operational</em>.
-            </h2>
-            <p className="text-white/55 mt-4 max-w-xl text-[14px] leading-relaxed font-light">
-              9 packages awaiting approval. 24 scheduled across the week.
-              BUYDOWN keyword performance is up 18% over the last 7 days.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link
-                to="/generator"
-                className="group inline-flex items-center gap-2 rounded-md bg-accent text-accent-foreground px-5 py-2.5 text-[13px] font-medium hover:opacity-90 transition-all border border-accent shadow-glow"
-              >
-                <Sparkles className="h-3.5 w-3.5" strokeWidth={1.75} /> Generate content
-                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={1.75} />
-              </Link>
-              <Link
-                to="/review"
-                className="inline-flex items-center gap-2 rounded-md bg-white/5 hover:bg-white/10 text-white border border-white/10 px-5 py-2.5 text-[13px] font-medium transition-all backdrop-blur"
-              >
-                <ClipboardCheck className="h-3.5 w-3.5" strokeWidth={1.75} /> Review queue
-              </Link>
-            </div>
+    <div className="space-y-7">
+      <section className="surface-charcoal relative overflow-hidden rounded-lg p-7 text-white shadow-elevated">
+        <div className="absolute inset-0 bg-grid-fine opacity-30" />
+        <div className="relative">
+          <div className="flex flex-wrap items-center gap-2.5 text-[11px]">
+            <span className="rounded border border-white/15 bg-white/5 px-2.5 py-1 font-mono tracking-[0.1em]">NMLS #320841</span>
+            <span className="rounded border border-white/15 bg-white/5 px-2.5 py-1 font-mono tracking-[0.1em]">Equal Housing Lender</span>
+            <span className="inline-flex items-center gap-1.5 rounded border border-emerald-300/30 bg-emerald-400/10 px-2.5 py-1 font-mono tracking-[0.1em] text-emerald-200">
+              <ShieldCheck className="h-3 w-3" /> Compliance Monitor Active
+            </span>
           </div>
 
-          {/* Core metrics column */}
-          <div className="lg:border-l lg:border-white/10 lg:pl-8 grid grid-cols-3 lg:grid-cols-1 gap-5 lg:min-w-[200px]">
-            {CORE_METRICS.map((m) => (
-              <div key={m.label}>
-                <div className="font-mono text-[10px] text-accent/80 tracking-[0.15em]">{m.unit}</div>
-                <div className="font-display text-[36px] font-light leading-none mt-1 tracking-tight">{m.value}</div>
-                <div className="text-[11px] text-white/50 mt-1.5 uppercase tracking-wider">{m.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Stats grid — refined panels */}
-      <div>
-        <div className="flex items-baseline justify-between mb-4">
-          <h3 className="font-display text-[20px] font-medium tracking-tight">System Telemetry</h3>
-          <div className="text-eyebrow text-muted-foreground">Live · Last sync 2 min ago</div>
-        </div>
-        <div className="grid gap-3 grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-          {STATS.map((s) => (
-            <div
-              key={s.label}
-              className="surface-stone rounded-lg p-5 lift-on-hover relative overflow-hidden group"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex h-8 w-8 items-center justify-center rounded border border-border bg-background">
-                  <s.icon className="h-3.5 w-3.5 text-foreground/70" strokeWidth={1.5} />
-                </div>
-                {s.trend === "up" && <TrendingUp className="h-3 w-3 text-success" strokeWidth={2} />}
-                {s.trend === "warn" && <span className="h-1.5 w-1.5 rounded-full bg-warning" />}
-              </div>
-              <div className="mt-4 font-display text-[26px] font-medium leading-none tracking-tight">{s.value}</div>
-              <div className="text-[11px] text-muted-foreground mt-2 leading-tight">{s.label}</div>
-              <div className="text-[10px] font-mono text-accent mt-2.5 uppercase tracking-wider">{s.delta}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Readiness */}
-        <div className="lg:col-span-2 surface-stone rounded-lg p-7">
-          <div className="flex items-start justify-between mb-7 pb-5 border-b border-border">
+          <div className="mt-4 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
-              <div className="text-eyebrow text-muted-foreground mb-1.5">Infrastructure</div>
-              <h3 className="font-display text-[20px] font-medium tracking-tight">System Readiness</h3>
-              <p className="text-[13px] text-muted-foreground mt-1">All modules required to operate the content OS</p>
+              <h2 className="font-display text-[31px] font-medium leading-tight tracking-tight">
+                Mortgage Operations Command Center
+              </h2>
+              <p className="mt-3 max-w-3xl text-[14px] leading-relaxed text-white/70">
+                Real-time visibility across pipeline health, borrower communications, funding momentum, and compliance status.
+              </p>
             </div>
-            <div className="text-right">
-              <div className="font-display text-[36px] font-light text-foreground leading-none tracking-tight">87<span className="text-accent text-[20px] font-mono">%</span></div>
-              <div className="text-[10px] text-muted-foreground mt-2 uppercase tracking-wider">Overall ready</div>
+            <div className="grid grid-cols-2 gap-3 sm:flex">
+              <button type="button" className="btn-cinematic px-4 py-2.5 text-[12px]">
+                <FileText className="h-3.5 w-3.5" />
+                New Intake
+              </button>
+              <button type="button" className="btn-cinematic-secondary px-4 py-2.5 text-[12px]">
+                <CalendarClock className="h-3.5 w-3.5" />
+                Rate Watch
+              </button>
             </div>
           </div>
-          <div className="grid sm:grid-cols-2 gap-x-8 gap-y-5">
-            {READINESS.map((r) => (
-              <div key={r.label}>
-                <div className="flex items-center justify-between text-[13px] mb-2">
-                  <span className="font-medium text-foreground">{r.label}</span>
-                  <span className="font-mono text-[11px] text-muted-foreground">{r.pct}%</span>
+        </div>
+      </section>
+
+      <section className="grid gap-3 grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        {KPI_CARDS.map((item) => (
+          <article key={item.label} className="kl-card p-4">
+            <div className="flex items-start justify-between">
+              <div className="flex h-8 w-8 items-center justify-center rounded border border-border bg-card">
+                <item.icon className="h-4 w-4 text-foreground/70" strokeWidth={1.75} />
+              </div>
+              {item.tone === "good" ? (
+                <TrendingUp className="h-3.5 w-3.5 text-success" strokeWidth={2} />
+              ) : (
+                <AlertTriangle className="h-3.5 w-3.5 text-warning" strokeWidth={2} />
+              )}
+            </div>
+            <div className="mt-3 font-display text-[28px] leading-none tracking-tight">{item.value}</div>
+            <div className="mt-1 text-[11px] text-muted-foreground">{item.label}</div>
+            <div className="mt-2 text-[10px] font-mono uppercase tracking-[0.1em] text-accent">{item.delta}</div>
+          </article>
+        ))}
+      </section>
+
+      <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+        <article className="kl-card p-6">
+          <div className="mb-5 flex items-center justify-between border-b border-border pb-4">
+            <div>
+              <p className="kl-eyebrow">Pipeline</p>
+              <h3 className="mt-1 font-display text-[22px] font-medium">Loan Stage Distribution</h3>
+            </div>
+            <span className="inline-flex items-center gap-1 text-[12px] text-muted-foreground">
+              Live now <ArrowUpRight className="h-3.5 w-3.5 text-accent" />
+            </span>
+          </div>
+          <div className="space-y-2">
+            {PIPELINE.map((row) => (
+              <div key={row.stage} className="grid grid-cols-[1.1fr_auto_auto] items-center gap-3 rounded border border-border bg-background/60 px-3 py-3">
+                <div>
+                  <div className="text-[13px] font-medium text-foreground">{row.stage}</div>
+                  <div className="mt-0.5 text-[11px] text-muted-foreground">{row.owner}</div>
                 </div>
-                <div className="h-1 rounded-full bg-secondary overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-accent rounded-full transition-all duration-700"
-                    style={{ width: `${r.pct}%` }}
-                  />
-                </div>
+                <div className="font-display text-[28px] leading-none tracking-tight text-foreground">{row.count}</div>
+                <div className="text-right text-[10px] font-mono uppercase tracking-[0.1em] text-muted-foreground">{row.sla}</div>
               </div>
             ))}
           </div>
-        </div>
+        </article>
 
-        {/* Recent activity */}
-        <div className="surface-stone rounded-lg p-7">
-          <div className="mb-6 pb-4 border-b border-border">
-            <div className="text-eyebrow text-muted-foreground mb-1.5">Audit Trail</div>
-            <h3 className="font-display text-[20px] font-medium tracking-tight">Recent Activity</h3>
+        <article className="kl-card p-6">
+          <div className="mb-5 border-b border-border pb-4">
+            <p className="kl-eyebrow">Today</p>
+            <h3 className="mt-1 font-display text-[22px] font-medium">Priority Queue</h3>
           </div>
-          <ul className="space-y-4">
-            {RECENT_ACTIVITY.map((a, i) => (
-              <li key={i} className="flex items-start gap-3 text-[13px]">
-                <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-accent/10 text-accent shrink-0 border border-accent/20">
-                  <CheckCircle2 className="h-3 w-3" strokeWidth={2} />
+          <ul className="space-y-2.5">
+            {PRIORITY_TASKS.map((task) => (
+              <li key={task} className="flex items-start gap-2.5 rounded border border-border bg-background/55 px-3 py-2.5 text-[13px] leading-relaxed">
+                <Clock3 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" strokeWidth={2} />
+                <span>{task}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-2">
+        <article className="kl-card p-6">
+          <div className="mb-5 border-b border-border pb-4">
+            <p className="kl-eyebrow">Governance</p>
+            <h3 className="mt-1 font-display text-[22px] font-medium">Compliance Snapshot</h3>
+          </div>
+          <div className="space-y-3">
+            {COMPLIANCE_STATUS.map((row) => (
+              <div key={row.label} className="rounded border border-border bg-background/55 p-3">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-[13px] font-medium">{row.label}</span>
+                  <span className="rounded border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.1em] text-accent">
+                    {row.value}
+                  </span>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-foreground leading-snug">{a.text}</div>
-                  <div className="text-[11px] text-muted-foreground flex items-center gap-1 mt-1 font-mono">
-                    <Clock className="h-2.5 w-2.5" strokeWidth={1.75} /> {a.time}
-                  </div>
+                <p className="mt-1.5 text-[12px] text-muted-foreground">{row.note}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article className="kl-card p-6">
+          <div className="mb-5 border-b border-border pb-4">
+            <p className="kl-eyebrow">Team Feed</p>
+            <h3 className="mt-1 font-display text-[22px] font-medium">Recent Activity</h3>
+          </div>
+          <ul className="space-y-3">
+            {RECENT_ACTIVITY.map((item) => (
+              <li key={item.text} className="flex items-start gap-3 rounded border border-border bg-background/55 px-3 py-2.5">
+                <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full border border-accent/25 bg-accent/10">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-accent" strokeWidth={2} />
+                </div>
+                <div>
+                  <p className="text-[13px] leading-snug text-foreground">{item.text}</p>
+                  <p className="mt-0.5 text-[11px] text-muted-foreground">{item.time}</p>
                 </div>
               </li>
             ))}
           </ul>
-        </div>
-      </div>
+        </article>
+      </section>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Today's pipeline */}
-        <div className="surface-stone rounded-lg p-7">
-          <div className="flex items-start justify-between mb-6 pb-5 border-b border-border">
-            <div>
-              <div className="text-eyebrow text-muted-foreground mb-1.5">Today</div>
-              <h3 className="font-display text-[20px] font-medium tracking-tight">Content Pipeline</h3>
-              <p className="text-[13px] text-muted-foreground mt-1">Real-time flow from idea to scheduled post</p>
-            </div>
-            <Link to="/calendar" className="text-[12px] text-accent font-medium inline-flex items-center gap-1 hover:gap-1.5 transition-all">
-              Open calendar <ArrowUpRight className="h-3 w-3" strokeWidth={2} />
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {PIPELINE.map((p, idx) => (
-              <div key={p.label} className="rounded-md border border-border bg-background/40 p-4 relative overflow-hidden">
-                <div className="font-mono text-[10px] text-accent tracking-wider">0{idx + 1}</div>
-                <div className="font-display text-[28px] font-light mt-1 leading-none tracking-tight">{p.value}</div>
-                <div className="text-[11px] text-muted-foreground mt-2 uppercase tracking-wider leading-tight">{p.label}</div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-6 flex items-center gap-3 rounded-md border border-border bg-background/60 p-3.5 text-[12px] text-muted-foreground">
-            <Calendar className="h-3.5 w-3.5 text-accent" strokeWidth={1.5} />
-            <span>Daily target: <span className="text-foreground font-medium">12 unique videos</span> across 6 platforms</span>
-          </div>
+      <section className="kl-card flex flex-wrap items-center justify-between gap-3 p-4">
+        <div className="flex flex-wrap items-center gap-4 text-[12px] text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5">
+            <Users className="h-3.5 w-3.5 text-accent" /> 14 active referral partners
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Handshake className="h-3.5 w-3.5 text-accent" /> 3 broker-channel campaigns running
+          </span>
         </div>
-
-        {/* Recommended actions */}
-        <div className="surface-stone rounded-lg p-7">
-          <div className="mb-6 pb-5 border-b border-border">
-            <div className="text-eyebrow text-muted-foreground mb-1.5">Recommendations</div>
-            <h3 className="font-display text-[20px] font-medium tracking-tight">Next Actions</h3>
-          </div>
-          <ul className="space-y-1.5">
-            {ACTIONS.map((a, idx) => (
-              <li key={a.label}>
-                <Link
-                  to={a.to}
-                  className="group flex items-center gap-3 rounded-md border border-transparent p-3 hover:border-border hover:bg-background/60 transition-all"
-                >
-                  <span className="font-mono text-[10px] text-muted-foreground w-5">0{idx + 1}</span>
-                  <div className="flex h-8 w-8 items-center justify-center rounded border border-border bg-background">
-                    <a.icon className="h-3.5 w-3.5 text-foreground/70 group-hover:text-accent transition-colors" strokeWidth={1.5} />
-                  </div>
-                  <div className="flex-1 text-[13px] font-medium text-foreground">{a.label}</div>
-                  <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-accent transition-all" strokeWidth={1.75} />
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <div className="rounded border border-border bg-background/55 px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.1em] text-muted-foreground">
+          Updated: April 27, 2026 09:14 AM PT
         </div>
-      </div>
+      </section>
     </div>
   );
 }
