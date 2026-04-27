@@ -1,7 +1,6 @@
 import { Link, useLocation, useNavigate, Outlet } from "@tanstack/react-router";
 import {
-  LayoutDashboard, Library, Sparkles, ClipboardCheck, Calendar,
-  History, KeyRound, Download, Settings, Bell, Search, LogOut, ChevronDown,
+  LayoutDashboard, Bell, Search, LogOut, ChevronDown,
   Command, Menu, X,
 } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -10,45 +9,18 @@ import { BRAND } from "@/lib/mock-data";
 
 const NAV_PRIMARY = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/knowledge", label: "Knowledge Base", icon: Library },
-  { to: "/generator", label: "Content Generator", icon: Sparkles },
-  { to: "/review", label: "Review Queue", icon: ClipboardCheck },
 ] as const;
 
-const NAV_OPS = [
-  { to: "/calendar", label: "Calendar", icon: Calendar },
-  { to: "/history", label: "Content History", icon: History },
-  { to: "/keywords", label: "DM Keywords", icon: KeyRound },
-  { to: "/export", label: "Export Center", icon: Download },
-] as const;
-
-const NAV_SYSTEM = [
-  { to: "/settings", label: "Settings", icon: Settings },
-] as const;
+const NAV_OPS: ReadonlyArray<{ to: string; label: string; icon: React.ComponentType<{ className?: string; strokeWidth?: number }> }> = [];
+const NAV_SYSTEM: ReadonlyArray<{ to: string; label: string; icon: React.ComponentType<{ className?: string; strokeWidth?: number }> }> = [];
 
 const TITLES: Record<string, { title: string; eyebrow: string }> = {
   "/dashboard": { title: "Command Overview", eyebrow: "Operations" },
-  "/knowledge": { title: "Knowledge Base", eyebrow: "Intelligence" },
-  "/generator": { title: "Content Generator", eyebrow: "Production" },
-  "/review": { title: "Review Queue", eyebrow: "Quality Control" },
-  "/calendar": { title: "Content Calendar", eyebrow: "Scheduling" },
-  "/history": { title: "Content History", eyebrow: "Archive" },
-  "/keywords": { title: "DM Keywords & Deliverables", eyebrow: "Routing" },
-  "/export": { title: "Export Center", eyebrow: "Distribution" },
-  "/settings": { title: "System Settings", eyebrow: "Configuration" },
 };
 
 export function AppLayout() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const [authed, setAuthed] = useState<boolean | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => {
-    const ok = typeof window !== "undefined" && localStorage.getItem("kl_auth") === "1";
-    setAuthed(ok);
-    if (!ok) navigate({ to: "/" });
-  }, [navigate]);
 
   // Close mobile drawer whenever route changes
   useEffect(() => {
@@ -61,8 +33,6 @@ export function AppLayout() {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
-
-  if (!authed) return null;
 
   const meta = TITLES[location.pathname] || { title: "Dashboard", eyebrow: "Operations" };
 
@@ -278,6 +248,8 @@ function NavSection({
   items: ReadonlyArray<{ to: string; label: string; icon: React.ComponentType<{ className?: string; strokeWidth?: number }> }>;
   pathname: string;
 }) {
+  if (items.length === 0) return null;
+
   return (
     <div className="mb-6 last:mb-0">
       <div className="px-3 pb-2.5 text-[10px] font-medium uppercase tracking-[0.2em] text-sidebar-foreground/40">

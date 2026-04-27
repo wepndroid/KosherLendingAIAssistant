@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Command, Lock, Mail, Shield } from "lucide-react";
 import { useState } from "react";
 
@@ -13,6 +13,7 @@ export const Route = createFileRoute("/")({
 });
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [authNotice, setAuthNotice] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,10 +22,17 @@ function LoginPage() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     setAuthNotice("");
+
+    if (!email.trim() && !password.trim()) {
+      setAuthNotice("Type any text in email or password to continue.");
+      return;
+    }
+
     setLoading(true);
     setTimeout(() => {
+      localStorage.setItem("kl_auth", "1");
       setLoading(false);
-      setAuthNotice("Login is temporarily disabled while backend authentication is being integrated.");
+      navigate({ to: "/dashboard" });
     }, 600);
   };
 
@@ -110,9 +118,7 @@ function LoginPage() {
                 <input type="checkbox" className="rounded border-input accent-[oklch(0.62_0.085_65)]" />
                 Remember device
               </label>
-              <Link to="/register" className="text-accent font-medium hover:underline underline-offset-4 decoration-accent/40">
-                Create account
-              </Link>
+              <span className="text-muted-foreground">MVP access mode</span>
             </div>
 
             <button type="submit" disabled={loading} className="btn-cinematic group w-full mt-3 py-3.5 text-[14px] tracking-wide">
@@ -139,16 +145,10 @@ function LoginPage() {
               <span className="h-px w-3 bg-border" />
               <span>Internal Access Only</span>
             </div>
-            <p className="text-center text-[12px] text-muted-foreground">
-              Need an account?{" "}
-              <Link to="/register" className="text-accent hover:underline underline-offset-2">
-                Register here
-              </Link>
-            </p>
+            <p className="text-center text-[12px] text-muted-foreground">Only dashboard is enabled in this MVP stage.</p>
           </form>
         </div>
       </div>
     </div>
   );
 }
-
