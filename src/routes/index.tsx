@@ -37,7 +37,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-background">
+    <div className="min-h-screen flex bg-background lg:flex-row-reverse signin-flat">
       <div className="hidden lg:flex lg:w-[58%] xl:w-[55%] bg-gradient-cinematic text-white relative overflow-hidden texture-grain">
         <div className="absolute inset-0 opacity-[0.10] pointer-events-none bg-grid-fine" />
         <div className="absolute top-0 right-0 bottom-0 w-px bg-gradient-to-b from-transparent via-accent/50 to-transparent" />
@@ -78,7 +78,7 @@ function LoginPage() {
       </div>
 
       <div className="flex-1 flex items-center justify-center px-6 py-12 bg-white">
-        <div className="relative w-full max-w-[420px] kl-card kl-card-elevated p-6 sm:p-7">
+        <div className="relative w-full max-w-[420px] kl-card p-6 sm:p-7">
           <div className="lg:hidden flex items-center gap-3 mb-10">
             <div className="flex h-10 w-10 items-center justify-center rounded-md surface-charcoal border border-border">
               <Command className="h-4 w-4 text-accent" strokeWidth={1.5} />

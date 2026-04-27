@@ -711,4 +711,12 @@
     font-weight: 500;
     color: var(--muted-foreground);
   }
+
+  /* Sign-in page: force flat surfaces (no shadows). */
+  .signin-flat .kl-card,
+  .signin-flat .btn-cinematic,
+  .signin-flat .btn-cinematic-secondary,
+  .signin-flat button {
+    box-shadow: none !important;
+  }
 }
