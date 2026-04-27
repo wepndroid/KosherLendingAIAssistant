@@ -101,7 +101,7 @@ export function AppLayout() {
 
               <div className="hidden h-9 w-px bg-gradient-to-b from-transparent via-border to-transparent md:block" />
 
-              <div className="btn-cinematic-secondary hidden h-7 items-center gap-2 rounded-md px-3 text-[10px] uppercase tracking-[0.16em] lg:flex">
+              <div className="btn-cinematic-secondary hidden h-7 items-center gap-2 rounded-[6px] px-3 text-[10px] uppercase tracking-[0.16em] lg:flex">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-50" />
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-success" />
