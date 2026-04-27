@@ -77,7 +77,7 @@ export function AppLayout() {
       <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} pathname={location.pathname} />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="surface-glass sticky top-0 z-20 border-b border-border">
+        <header className="sticky top-0 z-20 border-b border-white/40 bg-white/35 backdrop-blur-xl supports-[backdrop-filter]:bg-white/25">
           <div className="flex h-[68px] items-center gap-3 px-4 sm:gap-4 sm:px-6 lg:px-10">
             <button
               type="button"
@@ -132,7 +132,7 @@ export function AppLayout() {
           <div className="divider-brushed" />
         </header>
 
-        <main className="w-full max-w-[1600px] flex-1 bg-white px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
+        <main className="w-full max-w-[1600px] flex-1 bg-[#ffffff85] px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
           <div key={location.pathname} className="page-enter">
             <Outlet />
           </div>

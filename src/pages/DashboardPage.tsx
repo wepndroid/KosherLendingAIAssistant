@@ -123,7 +123,7 @@ export function DashboardPage() {
           </div>
           <div className="space-y-2">
             {PIPELINE.map((row) => (
-              <div key={row.stage} className="grid grid-cols-[1.1fr_auto_auto] items-center gap-3 rounded border border-border bg-background/60 px-3 py-3">
+              <div key={row.stage} className="grid grid-cols-[1.1fr_auto_auto] items-center gap-3 rounded border border-border px-3 py-3">
                 <div>
                   <div className="text-[13px] font-medium text-foreground">{row.stage}</div>
                   <div className="mt-0.5 text-[11px] text-muted-foreground">{row.owner}</div>
@@ -142,7 +142,7 @@ export function DashboardPage() {
           </div>
           <ul className="space-y-2.5">
             {PRIORITY_TASKS.map((task) => (
-              <li key={task} className="flex items-start gap-2.5 rounded border border-border bg-background/55 px-3 py-2.5 text-[13px] leading-relaxed">
+              <li key={task} className="flex items-start gap-2.5 rounded border border-border px-3 py-2.5 text-[13px] leading-relaxed">
                 <Clock3 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" strokeWidth={2} />
                 <span>{task}</span>
               </li>
@@ -159,7 +159,7 @@ export function DashboardPage() {
           </div>
           <div className="space-y-3">
             {COMPLIANCE_STATUS.map((row) => (
-              <div key={row.label} className="rounded border border-border bg-background/55 p-3">
+              <div key={row.label} className="rounded border border-border p-3">
                 <div className="flex items-center justify-between gap-3">
                   <span className="text-[13px] font-medium">{row.label}</span>
                   <span className="rounded border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.1em] text-accent">
@@ -179,7 +179,7 @@ export function DashboardPage() {
           </div>
           <ul className="space-y-3">
             {RECENT_ACTIVITY.map((item) => (
-              <li key={item.text} className="flex items-start gap-3 rounded border border-border bg-background/55 px-3 py-2.5">
+              <li key={item.text} className="flex items-start gap-3 rounded border border-border px-3 py-2.5">
                 <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full border border-accent/25 bg-accent/10">
                   <CheckCircle2 className="h-3.5 w-3.5 text-accent" strokeWidth={2} />
                 </div>
