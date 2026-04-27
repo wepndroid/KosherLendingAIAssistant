@@ -94,7 +94,7 @@ export function DashboardPage() {
         {KPI_CARDS.map((item) => (
           <article key={item.label} className="kl-card kl-card-interactive p-4">
             <div className="flex items-start justify-between">
-              <div className="flex h-8 w-8 items-center justify-center rounded border border-border bg-card">
+              <div className="flex h-8 w-8 items-center justify-center rounded">
                 <item.icon className="h-4 w-4 text-foreground/70" strokeWidth={1.75} />
               </div>
               {item.tone === "good" ? (
@@ -142,7 +142,7 @@ export function DashboardPage() {
           </div>
           <ul className="space-y-2.5">
             {PRIORITY_TASKS.map((task) => (
-              <li key={task} className="flex items-start gap-2.5 rounded border border-border px-3 py-2.5 text-[13px] leading-relaxed">
+              <li key={task} className="flex items-start gap-2.5 rounded px-3 py-2.5 text-[13px] leading-relaxed">
                 <Clock3 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" strokeWidth={2} />
                 <span>{task}</span>
               </li>
