@@ -13,8 +13,8 @@ export const Route = createFileRoute("/register")({
 });
 
 function RegisterPage() {
-  const [fullName, setFullName] = useState("Jeffrey Ben-Davis");
-  const [email, setEmail] = useState("jeffrey@kosherlending.com");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -290,4 +290,3 @@ function RegisterPage() {
     </div>
   );
 }
-
