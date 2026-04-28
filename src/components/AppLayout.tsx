@@ -1,10 +1,22 @@
 import { Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
-import { Bell, ChevronDown, Command, LayoutDashboard, LogOut, Menu, Search, X } from "lucide-react";
+import { Bell, Calendar, ChevronDown, ClipboardCheck, Command, Download, History, KeyRound, LayoutDashboard, Library, LogOut, Menu, Search, Settings, Sparkles, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BRAND } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 const NAV_PRIMARY = [{ to: "/dashboard", label: "Dashboard", icon: LayoutDashboard }] as const;
+const NAV_WORKSPACE = [
+  { to: "/knowledge", label: "Knowledge Base", icon: Library },
+  { to: "/generator", label: "Content Generator", icon: Sparkles },
+  { to: "/review", label: "Review Queue", icon: ClipboardCheck },
+] as const;
+const NAV_OPS = [
+  { to: "/calendar", label: "Calendar", icon: Calendar },
+  { to: "/history", label: "Content History", icon: History },
+  { to: "/keywords", label: "DM Keywords", icon: KeyRound },
+  { to: "/export", label: "Export Center", icon: Download },
+] as const;
+const NAV_SYSTEM = [{ to: "/settings", label: "Settings", icon: Settings }] as const;
 
 const TITLES: Record<string, { title: string; eyebrow: string }> = {
   "/dashboard": { title: "Mortgage Operations", eyebrow: "Command Center" },
@@ -54,6 +66,9 @@ export function AppLayout() {
 
         <nav className="relative flex-1 overflow-y-auto px-4 py-6">
           <NavSection label="Workspace" items={NAV_PRIMARY} pathname={location.pathname} />
+          <NavSection label="Production" items={NAV_WORKSPACE} pathname={location.pathname} />
+          <NavSection label="Operations" items={NAV_OPS} pathname={location.pathname} />
+          <NavSection label="System" items={NAV_SYSTEM} pathname={location.pathname} />
         </nav>
 
         <div className="relative border-t border-sidebar-border p-4">
@@ -184,6 +199,9 @@ function MobileNav({ open, onClose, pathname }: { open: boolean; onClose: () => 
 
         <nav className="relative h-[calc(100vh-72px-92px)] flex-1 overflow-y-auto px-3 py-5">
           <NavSection label="Workspace" items={NAV_PRIMARY} pathname={pathname} />
+          <NavSection label="Production" items={NAV_WORKSPACE} pathname={pathname} />
+          <NavSection label="Operations" items={NAV_OPS} pathname={pathname} />
+          <NavSection label="System" items={NAV_SYSTEM} pathname={pathname} />
         </nav>
 
         <div className="relative border-t border-sidebar-border p-4">
