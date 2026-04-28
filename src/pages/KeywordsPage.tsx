@@ -21,10 +21,10 @@ export function KeywordsPage() {
             <div key={f} className="flex items-center gap-2 shrink-0">
               <div className={`flex items-center gap-2 rounded-md border px-3 py-2 text-[12px] font-medium transition-colors ${
                 i === 0
-                  ? "border-accent/45 bg-accent/[0.08] text-accent"
-                  : "border-border bg-transparent text-foreground/80"
+                  ? "bg-[oklch(0.90_0.01_145)] text-accent shadow-[-2px_0.7065919983928324px_0.7065919983928324px_-0.5416666666666666px_rgba(0,0,0,0.1),0px_1.8065619053231785px_1.8065619053231785px_-1.0833333333333333px_rgba(0,0,0,0.09),0px_3.6217592146567767px_3.6217592146567767px_-1.625px_rgba(0,0,0,0.09),0px_6.8655999097303715px_6.8655999097303715px_-2.1666666666666665px_rgba(0,0,0,0.09),0px_13.646761411524492px_13.646761411524492px_-2.7083333333333335px_rgba(0,0,0,0.08),0px_30px_30px_-3.25px_rgba(0,0,0,0.05),inset_0px_3px_1px_0px_rgb(255,255,255)]"
+                  : "bg-[oklch(0.92_0.003_85)] text-foreground/80 shadow-[-2px_0.7065919983928324px_0.7065919983928324px_-0.5416666666666666px_rgba(0,0,0,0.1),0px_1.8065619053231785px_1.8065619053231785px_-1.0833333333333333px_rgba(0,0,0,0.09),0px_3.6217592146567767px_3.6217592146567767px_-1.625px_rgba(0,0,0,0.09),0px_6.8655999097303715px_6.8655999097303715px_-2.1666666666666665px_rgba(0,0,0,0.09),0px_13.646761411524492px_13.646761411524492px_-2.7083333333333335px_rgba(0,0,0,0.08),0px_30px_30px_-3.25px_rgba(0,0,0,0.05),inset_0px_3px_1px_0px_rgb(255,255,255)]"
               }`}>
-                <div className="flex h-5 w-5 items-center justify-center rounded border border-border bg-transparent font-mono text-[10px] font-medium">
+                <div className="flex h-5 w-5 items-center justify-center rounded bg-transparent font-mono text-[10px] font-medium">
                   {i + 1}
                 </div>
                 {f}
