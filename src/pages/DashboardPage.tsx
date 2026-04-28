@@ -202,10 +202,11 @@ export function DashboardPage() {
             <Handshake className="h-3.5 w-3.5 text-accent" /> 3 broker-channel campaigns running
           </span>
         </div>
-        <div className="rounded border border-border bg-background/55 px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.1em] text-muted-foreground">
+        <div className="rounded border border-border bg-transparent px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.1em] text-muted-foreground">
           Updated: April 27, 2026 09:14 AM PT
         </div>
       </section>
     </div>
   );
 }
+

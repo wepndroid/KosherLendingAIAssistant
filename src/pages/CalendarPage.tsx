@@ -23,7 +23,7 @@ export function CalendarPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-card">
+          <div className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-transparent">
             <CalendarIcon className="h-3.5 w-3.5 text-accent" strokeWidth={1.75} />
           </div>
           <div>
@@ -34,7 +34,7 @@ export function CalendarPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-1 rounded-md border border-border bg-card p-1">
+        <div className="flex items-center gap-1 rounded-md border border-border bg-transparent p-1">
           {(["month", "week", "day"] as const).map((v) => (
             <button
               key={v}
@@ -94,7 +94,7 @@ export function CalendarPage() {
                       className={`border-l border-border p-1.5 transition-colors ${di === 4 ? "bg-accent/[0.04]" : ""} hover:bg-secondary/40`}
                     >
                       {post && (
-                        <div className="rounded-md border border-border bg-card p-2 cursor-grab hover:border-accent/40 hover:shadow-card transition-all">
+                        <div className="rounded-md border border-border bg-transparent p-2 cursor-grab hover:border-accent/40  transition-all">
                           <div className={`inline-block rounded-sm font-mono text-[8.5px] font-medium px-1.5 py-0.5 mb-1 tracking-wider ${PLATFORM_STYLE[post.platform] || "bg-secondary"}`}>
                             {post.platform.split(" ")[0].toUpperCase()}
                           </div>
@@ -133,7 +133,7 @@ export function CalendarPage() {
                 ["TikTok", "5–6"], ["Instagram Reels", "4–5"], ["YouTube Shorts", "3–4"],
                 ["Facebook Reels", "2–3"], ["LinkedIn", "1"], ["X/Twitter", "2–3"],
               ].map(([p, n]) => (
-                <div key={p} className="flex items-center justify-between rounded-md border border-border bg-background/50 px-3 py-2">
+                <div key={p} className="flex items-center justify-between rounded-md border border-border bg-transparent px-3 py-2">
                   <span className="font-medium text-foreground">{p}</span>
                   <span className="font-mono text-[11px] text-muted-foreground">{n}/day</span>
                 </div>
@@ -154,3 +154,4 @@ export function CalendarPage() {
     </div>
   );
 }
+

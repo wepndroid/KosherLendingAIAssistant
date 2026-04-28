@@ -39,12 +39,12 @@ export function ExportPage() {
                   className={`text-left rounded-md border p-4 transition-all ${
                     active
                       ? "border-accent/50 bg-accent/[0.06] shadow-[inset_0_1px_0_oklch(1_0_0_/_0.5),0_4px_14px_-6px_oklch(0.62_0.085_65_/_0.25)]"
-                      : "border-border bg-background/50 hover:border-accent/30 hover:bg-background"
+                      : "border-border bg-transparent hover:border-accent/30 hover:bg-background"
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <div className={`flex h-9 w-9 items-center justify-center rounded-md border shrink-0 transition-colors ${
-                      active ? "border-accent/40 bg-accent/15 text-accent" : "border-border bg-card text-foreground/60"
+                      active ? "border-accent/40 bg-accent/15 text-accent" : "border-border bg-transparent text-foreground/60"
                     }`}>
                       <f.icon className="h-4 w-4" strokeWidth={1.5} />
                     </div>
@@ -130,7 +130,7 @@ export function ExportPage() {
         <h3 className="font-display text-[16px] font-medium tracking-tight">Export sample</h3>
         <p className="text-[12px] text-muted-foreground mb-4 mt-0.5">One post in selected format</p>
 
-        <div className="rounded-md border border-border bg-background/70 p-4 space-y-3 text-[12px] shadow-inset">
+        <div className="rounded-md border border-border bg-transparent p-4 space-y-3 text-[12px] ">
           <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground pb-2 border-b border-border">
             <span>Day · {previewPost.scheduledFor || "Today"}</span>
             <span>{previewPost.scheduledTime}</span>
@@ -167,3 +167,4 @@ export function ExportPage() {
     </div>
   );
 }
+

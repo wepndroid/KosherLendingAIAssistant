@@ -86,7 +86,7 @@ export function SettingsPage() {
               ["Research layer", "Perplexity"],
               ["Embedding model", "Placeholder"],
             ].map(([l, v]) => (
-              <div key={l} className="rounded-md border border-border bg-background/50 p-4 flex items-center justify-between">
+              <div key={l} className="rounded-md border border-border bg-transparent p-4 flex items-center justify-between">
                 <div>
                   <div className="kl-eyebrow text-[9.5px]">{l}</div>
                   <div className="font-display text-[15px] font-medium tracking-tight mt-1">{v}</div>
@@ -105,7 +105,7 @@ export function SettingsPage() {
               ["45 seconds", "95–115"],
               ["60 seconds", "120–140"],
             ].map(([d, w]) => (
-              <div key={d} className="rounded-md border border-border bg-background/50 p-4">
+              <div key={d} className="rounded-md border border-border bg-transparent p-4">
                 <div className="kl-eyebrow text-[9.5px]">{d}</div>
                 <div className="font-display text-[20px] font-medium mt-1 leading-none tracking-tight">{w}</div>
                 <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider mt-1.5">words</div>
@@ -125,7 +125,7 @@ export function SettingsPage() {
               ["LinkedIn", "Professional authority, one post per day"],
               ["X/Twitter", "Short thought-leadership posts"],
             ].map(([p, r]) => (
-              <div key={p} className="flex items-center justify-between rounded-md border border-border bg-background/50 px-4 py-2.5">
+              <div key={p} className="flex items-center justify-between rounded-md border border-border bg-transparent px-4 py-2.5">
                 <span className="font-medium">{p}</span>
                 <span className="text-muted-foreground text-[12px]">{r}</span>
               </div>
@@ -143,7 +143,7 @@ export function SettingsPage() {
               "No guaranteed loan approvals",
               "Rate comparisons must include APR and date",
             ].map((r) => (
-              <li key={r} className="flex items-center gap-2.5 rounded-md border border-border bg-background/50 px-4 py-2.5">
+              <li key={r} className="flex items-center gap-2.5 rounded-md border border-border bg-transparent px-4 py-2.5">
                 <Shield className="h-3 w-3 text-accent shrink-0" strokeWidth={1.75} /> {r}
               </li>
             ))}
@@ -160,7 +160,7 @@ export function SettingsPage() {
               ["Production brief", "Yes"],
               ["Captions", "Yes"],
             ].map(([k, v]) => (
-              <div key={k} className="flex items-center justify-between rounded-md border border-border bg-background/50 px-4 py-2.5">
+              <div key={k} className="flex items-center justify-between rounded-md border border-border bg-transparent px-4 py-2.5">
                 <span className="text-muted-foreground">{k}</span>
                 <span className="font-medium">{v}</span>
               </div>
@@ -172,7 +172,7 @@ export function SettingsPage() {
         <Card id="integrations" title="Backend Integration Readiness" icon={Plug} eyebrow="Connections">
           <div className="grid sm:grid-cols-2 gap-2.5">
             {INTEGRATIONS.map((i) => (
-              <div key={i.name} className="rounded-md border border-border bg-background/50 p-4 flex items-start justify-between gap-2">
+              <div key={i.name} className="rounded-md border border-border bg-transparent p-4 flex items-start justify-between gap-2">
                 <div>
                   <div className="font-medium text-[13.5px]">{i.name}</div>
                   <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider mt-1">{i.category}</div>
@@ -214,3 +214,4 @@ function Field({ label, value, full }: { label: string; value: string; full?: bo
     </div>
   );
 }
+

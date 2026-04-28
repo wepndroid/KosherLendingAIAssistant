@@ -187,7 +187,7 @@ function Section({ label, children }: { label: string; children: React.ReactNode
 
 function Block({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-md border border-border bg-background/50 p-3.5">
+    <div className="rounded-md border border-border bg-transparent p-3.5">
       <div className="kl-eyebrow text-[9.5px] mb-1.5">{label}</div>
       <div className="text-[13px] text-foreground/85 leading-relaxed">{children}</div>
     </div>
@@ -204,3 +204,4 @@ function Btn({ children, icon: Icon, primary }: { children: React.ReactNode; ico
     </button>
   );
 }
+

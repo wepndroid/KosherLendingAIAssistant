@@ -22,9 +22,9 @@ export function KeywordsPage() {
               <div className={`flex items-center gap-2 rounded-md border px-3 py-2 text-[12px] font-medium transition-colors ${
                 i === 0
                   ? "border-accent/45 bg-accent/[0.08] text-accent"
-                  : "border-border bg-background/60 text-foreground/80"
+                  : "border-border bg-transparent text-foreground/80"
               }`}>
-                <div className="flex h-5 w-5 items-center justify-center rounded border border-border bg-card font-mono text-[10px] font-medium">
+                <div className="flex h-5 w-5 items-center justify-center rounded border border-border bg-transparent font-mono text-[10px] font-medium">
                   {i + 1}
                 </div>
                 {f}
@@ -112,7 +112,7 @@ export function KeywordsPage() {
         <div className="fixed inset-0 z-50" onClick={() => setSelected(null)}>
           <div className="absolute inset-0 bg-foreground/40 backdrop-blur-[6px] animate-in fade-in" />
           <div
-            className="absolute right-0 top-0 h-full w-full max-w-md bg-card border-l border-border shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] overflow-y-auto"
+            className="absolute right-0 top-0 h-full w-full max-w-md bg-transparent border-l border-border shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
             style={{ animation: "panel-slide-in 320ms cubic-bezier(0.2,0.8,0.2,1) both" }}
           >
@@ -143,25 +143,25 @@ export function KeywordsPage() {
 
               <div>
                 <div className="kl-eyebrow mb-2">Recommended CTA</div>
-                <div className="rounded-md border border-border bg-background/50 border-l-2 border-l-accent/60 p-3 text-[13px] italic font-display text-foreground/80">
+                <div className="rounded-md border border-border bg-transparent border-l-2 border-l-accent/60 p-3 text-[13px] italic font-display text-foreground/80">
                   "{selected.cta}"
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2.5">
-                <div className="rounded-md border border-border bg-background/50 p-3">
+                <div className="rounded-md border border-border bg-transparent p-3">
                   <div className="kl-eyebrow text-[9.5px] mb-1.5">Intent</div>
                   <StatusBadge label={selected.intent} variant={statusToVariant(selected.intent)} />
                 </div>
-                <div className="rounded-md border border-border bg-background/50 p-3">
+                <div className="rounded-md border border-border bg-transparent p-3">
                   <div className="kl-eyebrow text-[9.5px] mb-1.5">GHL Status</div>
                   <StatusBadge label={selected.ghl} variant={statusToVariant(selected.ghl)} />
                 </div>
-                <div className="rounded-md border border-border bg-background/50 p-3">
+                <div className="rounded-md border border-border bg-transparent p-3">
                   <div className="kl-eyebrow text-[9.5px]">Times used</div>
                   <div className="font-display text-[20px] font-medium mt-1 leading-none tracking-tight">{selected.usage}</div>
                 </div>
-                <div className="rounded-md border border-border bg-background/50 p-3">
+                <div className="rounded-md border border-border bg-transparent p-3">
                   <div className="kl-eyebrow text-[9.5px]">Last used</div>
                   <div className="font-medium text-[12.5px] mt-1.5">{selected.lastUsed}</div>
                 </div>
@@ -196,3 +196,4 @@ function Btn({ children, icon: Icon, primary }: { children: React.ReactNode; ico
     </button>
   );
 }
+

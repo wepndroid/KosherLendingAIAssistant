@@ -110,7 +110,7 @@ export function GeneratorPage() {
                     className={`flex-1 rounded-md border px-3 py-2 text-[13px] font-mono font-medium transition-all ${
                       i === 0
                         ? "border-accent/50 bg-accent/[0.08] text-accent shadow-[inset_0_1px_0_oklch(1_0_0_/_0.4)]"
-                        : "border-border bg-card text-muted-foreground hover:border-accent/30 hover:text-foreground"
+                        : "border-border bg-transparent text-muted-foreground hover:border-accent/30 hover:text-foreground"
                     }`}
                   >
                     {n}
@@ -204,7 +204,7 @@ export function GeneratorPage() {
                 </p>
               </div>
 
-              <div className="rounded-md border border-border bg-background/50 border-l-2 border-l-accent/70 p-4">
+              <div className="rounded-md border border-border bg-transparent border-l-2 border-l-accent/70 p-4">
                 <div className="flex items-center gap-2">
                   <Quote className="h-3.5 w-3.5 text-accent" strokeWidth={1.75} />
                   <div className="kl-eyebrow text-accent">Source Citation</div>
@@ -299,7 +299,7 @@ export function GeneratorPage() {
                 className={`flex items-center justify-between rounded-md px-3 py-2 border transition-colors ${
                   duration.startsWith(d.split(" ")[0])
                     ? "bg-accent/[0.08] border-accent/40"
-                    : "bg-background/50 border-border"
+                    : "bg-transparent border-border"
                 }`}
               >
                 <span className="font-medium">{d}</span>
@@ -312,7 +312,7 @@ export function GeneratorPage() {
         <div className="kl-card p-6">
           <div className="kl-eyebrow text-accent mb-1">Compliance</div>
           <h3 className="font-display text-[16px] font-medium tracking-tight mb-3">Mandatory footer</h3>
-          <div className="rounded-md border border-border bg-background/50 p-3 text-[11.5px] leading-relaxed text-muted-foreground font-mono">
+          <div className="rounded-md border border-border bg-transparent p-3 text-[11.5px] leading-relaxed text-muted-foreground font-mono">
             {BRAND.compliance}
           </div>
         </div>
@@ -357,7 +357,7 @@ function Label({ icon: Icon, children }: { icon: React.ElementType; children: Re
 
 function Block({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-md border border-border bg-background/50 p-3.5">
+    <div className="rounded-md border border-border bg-transparent p-3.5">
       <div className="kl-eyebrow text-[9.5px] mb-1.5">{label}</div>
       <div className="text-[12.5px] text-foreground/85 leading-relaxed">{children}</div>
     </div>
@@ -371,3 +371,4 @@ function Btn({ children, icon: Icon, primary }: { children: React.ReactNode; ico
     </button>
   );
 }
+

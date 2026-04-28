@@ -105,7 +105,7 @@ export function HistoryPage() {
             </p>
             <ul className="space-y-1.5">
               {DUPES.map((d) => (
-                <li key={d.topic} className="flex items-center justify-between rounded-md border border-border bg-background/50 px-3 py-2 text-[12px]">
+                <li key={d.topic} className="flex items-center justify-between rounded-md border border-border bg-transparent px-3 py-2 text-[12px]">
                   <span className="line-clamp-1 text-foreground/80">{d.topic}</span>
                   <span className="font-mono font-semibold kl-status-warn shrink-0 ml-2">×{d.count}</span>
                 </li>
@@ -132,3 +132,4 @@ export function HistoryPage() {
     </div>
   );
 }
+

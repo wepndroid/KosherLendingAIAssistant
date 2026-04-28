@@ -25,7 +25,7 @@ export function KnowledgePage() {
     <div className="space-y-6">
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Upload area — architectural drop frame */}
-        <div className="lg:col-span-2 relative overflow-hidden rounded-lg border border-dashed border-border bg-card p-10 text-center shadow-card hover:border-accent/50 transition-colors">
+        <div className="lg:col-span-2 relative overflow-hidden rounded-lg border border-dashed border-border bg-transparent p-10 text-center hover:border-accent/50 transition-colors">
           <div className="absolute inset-0 bg-grid-architectural opacity-30 pointer-events-none" />
           <div className="relative">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md border border-border bg-background">
@@ -45,7 +45,7 @@ export function KnowledgePage() {
         </div>
 
         {/* Pipeline explainer */}
-        <div className="surface-stone rounded-lg p-6">
+        <div className="kl-card rounded-lg p-6">
           <div className="text-eyebrow text-muted-foreground mb-1.5">Pipeline</div>
           <h3 className="font-display text-[17px] font-medium mb-4 tracking-tight">After upload</h3>
           <ol className="space-y-3 text-[13px] text-foreground/80">
@@ -199,9 +199,10 @@ export function KnowledgePage() {
 
 function Stat({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-md border border-border bg-background/50 p-3">
+    <div className="rounded-md border border-border bg-transparent p-3">
       <div className="kl-eyebrow text-[9.5px]">{label}</div>
       <div className="font-display text-[18px] font-medium mt-1 leading-none tracking-tight">{value}</div>
     </div>
   );
 }
+

@@ -502,43 +502,52 @@
   /* Filter chip */
   .kl-chip {
     display: inline-flex; align-items: center; gap: 0.375rem;
-    border-radius: 0.25rem;
+    border-radius: 0.375rem;
     padding: 0.3125rem 0.75rem;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.01em;
-    color: var(--muted-foreground);
-    background: linear-gradient(180deg, oklch(0.985 0.005 78), oklch(0.95 0.006 75));
-    border: 1px solid oklch(0.88 0.008 70);
-    box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.7);
+    color: oklch(0.3 0.01 260);
+    background: oklch(0.92 0.003 85);
+    border: none;
+    box-shadow:
+      -2px 0.7065919983928324px 0.7065919983928324px -0.5416666666666666px rgba(0, 0, 0, 0.1),
+      0px 1.8065619053231785px 1.8065619053231785px -1.0833333333333333px rgba(0, 0, 0, 0.09),
+      0px 3.6217592146567767px 3.6217592146567767px -1.625px rgba(0, 0, 0, 0.09),
+      0px 6.8655999097303715px 6.8655999097303715px -2.1666666666666665px rgba(0, 0, 0, 0.09),
+      0px 13.646761411524492px 13.646761411524492px -2.7083333333333335px rgba(0, 0, 0, 0.08),
+      0px 30px 30px -3.25px rgba(0, 0, 0, 0.05),
+      inset 0px 3px 1px 0px rgb(255, 255, 255);
     transition: all 180ms ease;
     cursor: pointer;
     white-space: nowrap;
   }
   .kl-chip:hover {
-    color: var(--foreground);
-    border-color: oklch(0.515 0.135 145 / 0.4);
-    background: linear-gradient(180deg, oklch(1 0 0), oklch(0.96 0.006 75));
+    transform: translateY(-1px);
+    box-shadow:
+      -2px 0.7065919983928324px 0.7065919983928324px -0.5416666666666666px rgba(0, 0, 0, 0.12),
+      0px 1.8065619053231785px 1.8065619053231785px -1.0833333333333333px rgba(0, 0, 0, 0.1),
+      0px 3.6217592146567767px 3.6217592146567767px -1.625px rgba(0, 0, 0, 0.1),
+      0px 6.8655999097303715px 6.8655999097303715px -2.1666666666666665px rgba(0, 0, 0, 0.1),
+      0px 13.646761411524492px 13.646761411524492px -2.7083333333333335px rgba(0, 0, 0, 0.09),
+      0px 30px 30px -3.25px rgba(0, 0, 0, 0.07),
+      inset 0px 3px 1px 0px rgb(255, 255, 255);
   }
   .kl-chip-active {
-    color: oklch(0.99 0.005 80);
-    background:
-      linear-gradient(180deg,
-        oklch(0.30 0.014 50) 0%,
-        oklch(0.20 0.012 50) 100%);
-    border-color: oklch(0.14 0.008 50);
+    color: oklch(0.3 0.01 260);
+    background: oklch(0.9 0.004 85);
     box-shadow:
-      inset 0 1px 0 oklch(1 0 0 / 0.10),
-      inset 0 -1px 0 oklch(0 0 0 / 0.30),
-      0 2px 6px -2px oklch(0 0 0 / 0.18);
+      0 0 0 2px oklch(0.515 0.135 145 / 0.18),
+      -2px 0.7065919983928324px 0.7065919983928324px -0.5416666666666666px rgba(0, 0, 0, 0.1),
+      0px 1.8065619053231785px 1.8065619053231785px -1.0833333333333333px rgba(0, 0, 0, 0.09),
+      0px 3.6217592146567767px 3.6217592146567767px -1.625px rgba(0, 0, 0, 0.09),
+      0px 6.8655999097303715px 6.8655999097303715px -2.1666666666666665px rgba(0, 0, 0, 0.09),
+      0px 13.646761411524492px 13.646761411524492px -2.7083333333333335px rgba(0, 0, 0, 0.08),
+      0px 30px 30px -3.25px rgba(0, 0, 0, 0.05),
+      inset 0px 3px 1px 0px rgb(255, 255, 255);
   }
   .kl-chip-active:hover {
-    color: oklch(0.99 0.005 80);
-    background:
-      linear-gradient(180deg,
-        oklch(0.34 0.016 55) 0%,
-        oklch(0.235 0.035 256) 100%);
-    border-color: oklch(0.515 0.135 145 / 0.5);
+    transform: translateY(-1px);
   }
 
   /* Tag — non-interactive label */
