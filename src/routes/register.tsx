@@ -1,6 +1,7 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Lock, Mail, Shield, Command, ArrowRight, User } from "lucide-react";
 import { useState } from "react";
+import api, { setToken } from "@/lib/api";
 
 export const Route = createFileRoute("/register")({
   component: RegisterPage,
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/register")({
 });
 
 function RegisterPage() {
+  const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +22,7 @@ function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [notice, setNotice] = useState("");
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setNotice("");
 
@@ -28,12 +30,22 @@ function RegisterPage() {
       setNotice("Password confirmation does not match.");
       return;
     }
+    if (!email.trim() || !password.trim()) {
+      setNotice("Email and password are required.");
+      return;
+    }
 
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const r = await api.auth.register(email.trim(), password, fullName);
+      setToken(r.token);
+      localStorage.setItem("kl_auth", "1");
+      navigate({ to: "/dashboard" });
+    } catch (err: any) {
+      setNotice(err?.message || "Registration failed");
+    } finally {
       setLoading(false);
-      setNotice("Registration is temporarily disabled while backend authentication is being integrated.");
-    }, 600);
+    }
   };
 
   const modules = [

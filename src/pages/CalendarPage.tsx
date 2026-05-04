@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Calendar as CalendarIcon, AlertTriangle } from "lucide-react";
-import { POSTING_TIMES, GENERATED_CONTENT } from "@/lib/mock-data";
+import { POSTING_TIMES } from "@/lib/mock-data";
 import { StatusBadge, statusToVariant } from "@/components/StatusBadge";
+import api from "@/lib/api";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const DATES = [21, 22, 23, 24, 25, 26, 27];
 
-// Refined monochrome platform tags — no candy colors
 const PLATFORM_STYLE: Record<string, string> = {
   "TikTok":          "bg-foreground text-background",
   "Instagram Reels": "bg-foreground/85 text-background",
@@ -16,8 +15,50 @@ const PLATFORM_STYLE: Record<string, string> = {
   "X/Twitter":       "bg-foreground/40 text-background",
 };
 
+interface Item {
+  id: string;
+  topic: string;
+  platform: string;
+  status: string;
+  dm_keyword: string;
+  scheduled_for: string;  // YYYY-MM-DD
+  scheduled_time: string; // HH:MM:SS
+}
+
+function startOfWeek(d: Date): Date {
+  const day = d.getDay() || 7;
+  const out = new Date(d);
+  if (day !== 1) out.setDate(d.getDate() - (day - 1));
+  out.setHours(0, 0, 0, 0);
+  return out;
+}
+
+function isoDate(d: Date) { return d.toISOString().slice(0, 10); }
+
 export function CalendarPage() {
   const [view, setView] = useState<"month" | "week" | "day">("week");
+  const [weekStart] = useState<Date>(() => startOfWeek(new Date()));
+  const [items, setItems] = useState<Item[]>([]);
+
+  const dates = useMemo(() => Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(weekStart);
+    d.setDate(weekStart.getDate() + i);
+    return d;
+  }), [weekStart]);
+
+  useEffect(() => {
+    const start = isoDate(dates[0]);
+    const end = isoDate(dates[6]);
+    api.calendar.list(start, end).then((r) => setItems(r.items as Item[])).catch(() => setItems([]));
+  }, [dates]);
+
+  const headerLabel = `${dates[0].toLocaleDateString(undefined, { month: "short", day: "numeric" })} — ${dates[6].toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}`;
+
+  const findPost = (dateIdx: number, time: string) => {
+    const ds = isoDate(dates[dateIdx]);
+    const tHM = time.replace(/\s?(AM|PM)/i, "");
+    return items.find((c) => c.scheduled_for === ds && (c.scheduled_time || "").startsWith(timeTo24(time)));
+  };
 
   return (
     <div className="space-y-6">
@@ -28,9 +69,7 @@ export function CalendarPage() {
           </div>
           <div>
             <div className="kl-eyebrow">Posting Window</div>
-            <div className="font-display text-[17px] font-medium tracking-tight mt-0.5">
-              April 21 — April 27, 2025
-            </div>
+            <div className="font-display text-[17px] font-medium tracking-tight mt-0.5">{headerLabel}</div>
           </div>
         </div>
 
@@ -40,9 +79,7 @@ export function CalendarPage() {
               key={v}
               onClick={() => setView(v)}
               className={`rounded px-3 py-1.5 text-[11.5px] font-medium uppercase tracking-[0.12em] font-mono transition-all ${
-                view === v
-                  ? "bg-foreground text-background shadow-[inset_0_1px_0_oklch(1_0_0_/_0.10)]"
-                  : "text-muted-foreground hover:text-foreground"
+                view === v ? "bg-foreground text-background shadow-[inset_0_1px_0_oklch(1_0_0_/_0.10)]" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {v}
@@ -51,28 +88,23 @@ export function CalendarPage() {
         </div>
       </div>
 
-      {/* Warning banner */}
       <div className="kl-banner-warn">
         <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5 kl-status-warn" strokeWidth={1.75} />
         <div className="leading-relaxed">
-          <strong className="font-medium">Direct social media posting is not enabled in this MVP.</strong>
-          <span className="text-foreground/70"> The calendar is for planning, review, and export workflow only. Connect distribution in Settings → Integrations.</span>
+          <strong className="font-medium">Posting is via GoHighLevel.</strong>
+          <span className="text-foreground/70"> Approved content is queued and pushed to GHL on schedule. Add your GHL key in Settings → Integrations to enable live posting.</span>
         </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
-        {/* Calendar grid */}
         <div className="kl-card overflow-hidden p-0">
           <div className="grid grid-cols-[80px_repeat(7,minmax(0,1fr))] border-b border-border bg-gradient-to-b from-secondary/60 to-secondary/30">
             <div />
             {DAYS.map((d, i) => (
-              <div
-                key={d}
-                className={`px-3 py-3 text-center border-l border-border ${i === 4 ? "bg-accent/[0.06]" : ""}`}
-              >
+              <div key={d} className={`px-3 py-3 text-center border-l border-border ${i === 4 ? "bg-accent/[0.06]" : ""}`}>
                 <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground font-medium">{d}</div>
                 <div className={`font-display text-[19px] font-medium mt-0.5 leading-none tracking-tight ${i === 4 ? "text-accent" : "text-foreground"}`}>
-                  {DATES[i]}
+                  {dates[i].getDate()}
                 </div>
               </div>
             ))}
@@ -85,23 +117,18 @@ export function CalendarPage() {
                   {time}
                 </div>
                 {DAYS.map((_, di) => {
-                  const post = GENERATED_CONTENT.find((c) =>
-                    c.scheduledTime === time && DATES[di] === Number(c.scheduledFor?.split("-")[2]),
-                  );
+                  const post = findPost(di, time);
                   return (
-                    <div
-                      key={di}
-                      className={`border-l border-border p-1.5 transition-colors ${di === 4 ? "bg-accent/[0.04]" : ""} hover:bg-secondary/40`}
-                    >
+                    <div key={di} className={`border-l border-border p-1.5 transition-colors ${di === 4 ? "bg-accent/[0.04]" : ""} hover:bg-secondary/40`}>
                       {post && (
-                        <div className="rounded-md border border-border bg-transparent p-2 cursor-grab hover:border-accent/40  transition-all">
+                        <div className="rounded-md border border-border bg-transparent p-2 cursor-grab hover:border-accent/40 transition-all">
                           <div className={`inline-block rounded-sm font-mono text-[8.5px] font-medium px-1.5 py-0.5 mb-1 tracking-wider ${PLATFORM_STYLE[post.platform] || "bg-secondary"}`}>
-                            {post.platform.split(" ")[0].toUpperCase()}
+                            {(post.platform || "").split(" ")[0].toUpperCase()}
                           </div>
                           <div className="text-[11px] font-medium leading-tight line-clamp-2 text-foreground">{post.topic}</div>
                           <div className="mt-1.5 flex items-center justify-between text-[10px]">
-                            <span className="font-mono text-accent tracking-wider">#{post.dmKeyword}</span>
-                            <StatusBadge label={post.status} variant={statusToVariant(post.status)} className="!text-[8.5px] !px-1 !py-0" />
+                            <span className="font-mono text-accent tracking-wider">#{post.dm_keyword}</span>
+                            <StatusBadge label={post.status} variant={statusToVariant(post.status as any)} className="!text-[8.5px] !px-1 !py-0" />
                           </div>
                         </div>
                       )}
@@ -113,7 +140,6 @@ export function CalendarPage() {
           </div>
         </div>
 
-        {/* Right panel — daily target */}
         <div className="space-y-4">
           <div className="kl-card p-5">
             <div className="kl-eyebrow text-accent mb-1.5">Daily Target</div>
@@ -145,7 +171,7 @@ export function CalendarPage() {
             <div className="kl-eyebrow mb-3">Status Legend</div>
             <div className="flex flex-col gap-2">
               {["Draft", "Approved", "Ready to Export", "Exported", "Needs Review"].map((s) => (
-                <StatusBadge key={s} label={s} variant={statusToVariant(s)} />
+                <StatusBadge key={s} label={s} variant={statusToVariant(s as any)} />
               ))}
             </div>
           </div>
@@ -155,3 +181,13 @@ export function CalendarPage() {
   );
 }
 
+function timeTo24(t: string): string {
+  const m = /^(\d{1,2}):(\d{2})\s?(AM|PM)?$/i.exec(t.trim());
+  if (!m) return t;
+  let h = Number(m[1]);
+  const min = m[2];
+  const ampm = (m[3] || "").toUpperCase();
+  if (ampm === "PM" && h < 12) h += 12;
+  if (ampm === "AM" && h === 12) h = 0;
+  return `${String(h).padStart(2, "0")}:${min}`;
+}

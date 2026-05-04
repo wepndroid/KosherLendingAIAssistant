@@ -1,32 +1,61 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { KeyRound, Plus, Edit3, ExternalLink, CheckCircle2, Download, ArrowRight, X, AlertTriangle } from "lucide-react";
-import { DM_KEYWORDS, type DMKeyword } from "@/lib/mock-data";
 import { StatusBadge, statusToVariant } from "@/components/StatusBadge";
+import api from "@/lib/api";
 
 const FLOW = ["Video CTA", "User DMs keyword", "GHL sends deliverable", "Follow-up sequence", "Qualified lead"];
 
+interface ApiKeyword {
+  keyword: string;
+  category: string;
+  pillars: string[];
+  intent: string;
+  cta_template: string;
+  deliverable_id: string | null;
+  ghl_status: string;
+  usage_count: number;
+  last_used: string | null;
+  status: string;
+  summary: string;
+}
+
 export function KeywordsPage() {
-  const [selected, setSelected] = useState<DMKeyword | null>(null);
+  const [items, setItems] = useState<ApiKeyword[]>([]);
+  const [selected, setSelected] = useState<ApiKeyword | null>(null);
+
+  const load = () =>
+    api.keywords.list().then((r) => setItems(r.items as ApiKeyword[])).catch(() => setItems([]));
+
+  useEffect(() => { load(); }, []);
+
+  const exportMap = async () => {
+    const r = await api.export.create({ name: "GHL Keyword Map", format: "ghl_map" });
+    if (r?.export?.download_url) {
+      const a = document.createElement("a");
+      a.href = r.export.download_url;
+      a.download = "ghl_keyword_map.json";
+      a.click();
+    }
+  };
+
+  const markReady = async (kw: string) => {
+    await api.keywords.patch(kw, { keyword: kw, ghl_status: "Ready" });
+    await load();
+    if (selected?.keyword === kw) setSelected({ ...selected, ghl_status: "Ready" });
+  };
 
   return (
     <div className="space-y-6">
-      {/* Flow */}
       <div className="kl-card p-5">
         <div className="kl-eyebrow text-accent mb-1">Automation</div>
-        <h3 className="font-display text-[16px] font-medium tracking-tight mb-4">
-          Keyword automation flow
-        </h3>
+        <h3 className="font-display text-[16px] font-medium tracking-tight mb-4">Keyword automation flow</h3>
         <div className="flex items-center gap-2 overflow-x-auto pb-1">
           {FLOW.map((f, i) => (
             <div key={f} className="flex items-center gap-2 shrink-0">
-              <div className={`flex items-center gap-2 rounded-md border px-3 py-2 text-[12px] font-medium transition-colors ${
-                i === 0
-                  ? "bg-[oklch(0.90_0.01_145)] text-accent shadow-[-2px_0.7065919983928324px_0.7065919983928324px_-0.5416666666666666px_rgba(0,0,0,0.1),0px_1.8065619053231785px_1.8065619053231785px_-1.0833333333333333px_rgba(0,0,0,0.09),0px_3.6217592146567767px_3.6217592146567767px_-1.625px_rgba(0,0,0,0.09),0px_6.8655999097303715px_6.8655999097303715px_-2.1666666666666665px_rgba(0,0,0,0.09),0px_13.646761411524492px_13.646761411524492px_-2.7083333333333335px_rgba(0,0,0,0.08),0px_30px_30px_-3.25px_rgba(0,0,0,0.05),inset_0px_3px_1px_0px_rgb(255,255,255)]"
-                  : "bg-[oklch(0.92_0.003_85)] text-foreground/80 shadow-[-2px_0.7065919983928324px_0.7065919983928324px_-0.5416666666666666px_rgba(0,0,0,0.1),0px_1.8065619053231785px_1.8065619053231785px_-1.0833333333333333px_rgba(0,0,0,0.09),0px_3.6217592146567767px_3.6217592146567767px_-1.625px_rgba(0,0,0,0.09),0px_6.8655999097303715px_6.8655999097303715px_-2.1666666666666665px_rgba(0,0,0,0.09),0px_13.646761411524492px_13.646761411524492px_-2.7083333333333335px_rgba(0,0,0,0.08),0px_30px_30px_-3.25px_rgba(0,0,0,0.05),inset_0px_3px_1px_0px_rgb(255,255,255)]"
+              <div className={`flex items-center gap-2 rounded-md border px-3 py-2 text-[12px] font-medium ${
+                i === 0 ? "bg-accent/10 text-accent border-accent/30" : "bg-secondary/40 text-foreground/80 border-border"
               }`}>
-                <div className="flex h-5 w-5 items-center justify-center rounded bg-transparent font-mono text-[10px] font-medium">
-                  {i + 1}
-                </div>
+                <div className="flex h-5 w-5 items-center justify-center rounded font-mono text-[10px] font-medium">{i + 1}</div>
                 {f}
               </div>
               {i < FLOW.length - 1 && <ArrowRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" strokeWidth={1.75} />}
@@ -35,28 +64,25 @@ export function KeywordsPage() {
         </div>
       </div>
 
-      {/* Reconciliation warning */}
       <div className="kl-banner-warn">
         <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5 kl-status-warn" strokeWidth={1.75} />
         <div className="leading-relaxed">
-          <strong className="font-medium">Keyword system needs reconciliation:</strong>
-          <span className="text-foreground/70"> strategy documents mention 28 keywords, Year 2 uses fewer repeated keywords, and the deliverable system contains 77 deliverables. The MVP normalizes these into one master keyword map.</span>
+          <strong className="font-medium">Keyword system reconciliation:</strong>
+          <span className="text-foreground/70"> 13 active GHL keywords from the calendar; 77 total deliverables in the source DOCX (48 are state-specific). Run <code>seed_keywords</code> to populate the active set.</span>
         </div>
       </div>
 
-      {/* Actions */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="text-[13px] text-muted-foreground">
-          <span className="font-display text-[26px] font-medium text-foreground tracking-tight">{DM_KEYWORDS.length}</span>
+          <span className="font-display text-[26px] font-medium text-foreground tracking-tight">{items.length}</span>
           <span className="ml-2">keywords mapped to deliverables</span>
         </div>
         <div className="flex flex-wrap gap-2">
           <Btn icon={Plus} primary>Add keyword</Btn>
-          <Btn icon={Download}>Export keyword map</Btn>
+          <Btn icon={Download} onClick={exportMap}>Export keyword map</Btn>
         </div>
       </div>
 
-      {/* Table */}
       <div className="kl-table-wrap">
         <div className="overflow-x-auto">
           <table className="kl-table">
@@ -73,7 +99,7 @@ export function KeywordsPage() {
               </tr>
             </thead>
             <tbody>
-              {DM_KEYWORDS.map((k) => (
+              {items.map((k) => (
                 <tr key={k.keyword} onClick={() => setSelected(k)} className="row-interactive">
                   <td>
                     <div className="flex items-center gap-2.5">
@@ -85,18 +111,18 @@ export function KeywordsPage() {
                   </td>
                   <td className="text-[12px]">{k.category}</td>
                   <td>
-                    <div className="font-medium text-[13px]">{k.deliverable}</div>
+                    <div className="font-medium text-[13px]">{k.summary?.split(" — ")[0] || "—"}</div>
                   </td>
                   <td>
                     <div className="flex flex-wrap gap-1">
-                      {k.pillars.map((p) => (
+                      {(k.pillars || []).map((p) => (
                         <span key={p} className="kl-tag !text-[9.5px]">{p}</span>
                       ))}
                     </div>
                   </td>
-                  <td><StatusBadge label={k.intent} variant={statusToVariant(k.intent)} /></td>
-                  <td><StatusBadge label={k.ghl} variant={statusToVariant(k.ghl)} /></td>
-                  <td className="num">{k.usage}</td>
+                  <td><StatusBadge label={k.intent} variant={statusToVariant(k.intent as any)} /></td>
+                  <td><StatusBadge label={k.ghl_status} variant={statusToVariant(k.ghl_status as any)} /></td>
+                  <td className="num">{k.usage_count}</td>
                   <td className="text-right">
                     <ExternalLink className="h-3.5 w-3.5 inline text-muted-foreground" strokeWidth={1.75} />
                   </td>
@@ -107,12 +133,11 @@ export function KeywordsPage() {
         </div>
       </div>
 
-      {/* Drawer */}
       {selected && (
         <div className="fixed inset-0 z-50" onClick={() => setSelected(null)}>
           <div className="absolute inset-0 bg-foreground/40 backdrop-blur-[6px] animate-in fade-in" />
           <div
-            className="absolute right-0 top-0 h-full w-full max-w-md bg-transparent border-l border-border shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] overflow-y-auto"
+            className="absolute right-0 top-0 h-full w-full max-w-md bg-background border-l border-border shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
             style={{ animation: "panel-slide-in 320ms cubic-bezier(0.2,0.8,0.2,1) both" }}
           >
@@ -127,59 +152,46 @@ export function KeywordsPage() {
                   <div className="text-[11px] text-muted-foreground mt-0.5">{selected.category}</div>
                 </div>
               </div>
-              <button
-                onClick={() => setSelected(null)}
-                className="rounded-md p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary/70 transition-colors"
-              >
+              <button onClick={() => setSelected(null)} className="rounded-md p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary/70 transition-colors">
                 <X className="h-4 w-4" strokeWidth={1.75} />
               </button>
             </div>
             <div className="p-5 space-y-5">
               <div>
                 <div className="kl-eyebrow mb-1.5">Deliverable</div>
-                <div className="font-display text-[15.5px] font-medium tracking-tight">{selected.deliverable}</div>
                 <p className="text-[13px] text-muted-foreground mt-1.5 leading-relaxed">{selected.summary}</p>
               </div>
 
               <div>
                 <div className="kl-eyebrow mb-2">Recommended CTA</div>
                 <div className="rounded-md border border-border bg-transparent border-l-2 border-l-accent/60 p-3 text-[13px] italic font-display text-foreground/80">
-                  "{selected.cta}"
+                  "{selected.cta_template}"
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2.5">
                 <div className="rounded-md border border-border bg-transparent p-3">
                   <div className="kl-eyebrow text-[9.5px] mb-1.5">Intent</div>
-                  <StatusBadge label={selected.intent} variant={statusToVariant(selected.intent)} />
+                  <StatusBadge label={selected.intent} variant={statusToVariant(selected.intent as any)} />
                 </div>
                 <div className="rounded-md border border-border bg-transparent p-3">
                   <div className="kl-eyebrow text-[9.5px] mb-1.5">GHL Status</div>
-                  <StatusBadge label={selected.ghl} variant={statusToVariant(selected.ghl)} />
+                  <StatusBadge label={selected.ghl_status} variant={statusToVariant(selected.ghl_status as any)} />
                 </div>
                 <div className="rounded-md border border-border bg-transparent p-3">
                   <div className="kl-eyebrow text-[9.5px]">Times used</div>
-                  <div className="font-display text-[20px] font-medium mt-1 leading-none tracking-tight">{selected.usage}</div>
+                  <div className="font-display text-[20px] font-medium mt-1 leading-none tracking-tight">{selected.usage_count}</div>
                 </div>
                 <div className="rounded-md border border-border bg-transparent p-3">
                   <div className="kl-eyebrow text-[9.5px]">Last used</div>
-                  <div className="font-medium text-[12.5px] mt-1.5">{selected.lastUsed}</div>
-                </div>
-              </div>
-
-              <div>
-                <div className="kl-eyebrow mb-2">Follow-up sequence</div>
-                <div className="kl-empty !py-5 !px-4 text-left">
-                  <div className="text-[12px] italic">
-                    GoHighLevel sequence placeholder — connect in Settings → Integrations.
-                  </div>
+                  <div className="font-medium text-[12.5px] mt-1.5">{(selected.last_used || "—").slice(0, 10)}</div>
                 </div>
               </div>
 
               <div className="flex flex-wrap gap-2 pt-3 border-t border-border">
                 <Btn icon={Edit3}>Edit mapping</Btn>
                 <Btn icon={ExternalLink}>View deliverable</Btn>
-                <Btn icon={CheckCircle2} primary>Mark GHL ready</Btn>
+                <Btn icon={CheckCircle2} primary onClick={() => markReady(selected.keyword)}>Mark GHL ready</Btn>
               </div>
             </div>
           </div>
@@ -189,11 +201,20 @@ export function KeywordsPage() {
   );
 }
 
-function Btn({ children, icon: Icon, primary }: { children: React.ReactNode; icon: React.ElementType; primary?: boolean }) {
+function Btn({
+  children,
+  icon: Icon,
+  primary,
+  onClick,
+}: {
+  children: React.ReactNode;
+  icon: React.ElementType;
+  primary?: boolean;
+  onClick?: () => void;
+}) {
   return (
-    <button type="button" className={primary ? "btn-cinematic" : "btn-cinematic-secondary"}>
+    <button type="button" onClick={onClick} className={primary ? "btn-cinematic" : "btn-cinematic-secondary"}>
       <Icon className="h-3.5 w-3.5" strokeWidth={1.75} /> {children}
     </button>
   );
 }
-

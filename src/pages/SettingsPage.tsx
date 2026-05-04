@@ -1,8 +1,10 @@
-import { BRAND, TEAM, INTEGRATIONS } from "@/lib/mock-data";
+import { useEffect, useState } from "react";
+import { BRAND, TEAM } from "@/lib/mock-data";
 import { StatusBadge, statusToVariant } from "@/components/StatusBadge";
 import {
-  Building2, Users, Brain, FileText, Smartphone, Shield, Download as DownloadIcon, Plug,
+  Building2, Users, Brain, FileText, Smartphone, Shield, Download as DownloadIcon, Plug, Save, Loader2,
 } from "lucide-react";
+import api from "@/lib/api";
 
 const SECTIONS = [
   { id: "brand", label: "Brand Profile", icon: Building2 },
@@ -15,10 +17,43 @@ const SECTIONS = [
   { id: "integrations", label: "Integrations", icon: Plug },
 ];
 
+interface BrandData {
+  brand_name: string;
+  creator_name: string;
+  website: string;
+  nmls: string;
+  voice_description: string;
+  compliance_footer: string;
+}
+
 export function SettingsPage() {
+  const [brand, setBrand] = useState<BrandData>({
+    brand_name: BRAND.name,
+    creator_name: BRAND.creator,
+    website: BRAND.website,
+    nmls: BRAND.nmls.replace("#", ""),
+    voice_description: BRAND.voice,
+    compliance_footer: BRAND.compliance,
+  });
+  const [saving, setSaving] = useState(false);
+  const [integrations, setIntegrations] = useState<any[]>([]);
+
+  useEffect(() => {
+    api.brand.get().then((b) => setBrand((cur) => ({ ...cur, ...b }))).catch(() => {});
+    api.integrations.list().then((r) => setIntegrations(r.items)).catch(() => setIntegrations([]));
+  }, []);
+
+  const save = async () => {
+    setSaving(true);
+    try {
+      await api.brand.patch(brand);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="grid gap-6 lg:grid-cols-[220px_1fr]">
-      {/* Side nav */}
       <nav className="hidden lg:block space-y-0.5 sticky top-24 h-fit">
         <div className="kl-eyebrow px-3 pb-2.5">Configuration</div>
         {SECTIONS.map((s) => (
@@ -34,19 +69,21 @@ export function SettingsPage() {
       </nav>
 
       <div className="space-y-6">
-        {/* Brand */}
         <Card id="brand" title="Brand Profile" icon={Building2} eyebrow="Identity">
           <div className="grid sm:grid-cols-2 gap-4">
-            <Field label="Brand name" value={BRAND.name} />
-            <Field label="Creator" value={BRAND.creator} />
-            <Field label="Website" value={BRAND.website} />
-            <Field label="NMLS" value={BRAND.nmls} />
-            <Field label="Brand voice" value={BRAND.voice} full />
-            <Field label="Compliance footer" value={BRAND.compliance} full />
+            <Field label="Brand name" value={brand.brand_name} onChange={(v) => setBrand({ ...brand, brand_name: v })} />
+            <Field label="Creator" value={brand.creator_name} onChange={(v) => setBrand({ ...brand, creator_name: v })} />
+            <Field label="Website" value={brand.website} onChange={(v) => setBrand({ ...brand, website: v })} />
+            <Field label="NMLS" value={brand.nmls} onChange={(v) => setBrand({ ...brand, nmls: v })} />
+            <Field label="Brand voice" value={brand.voice_description} onChange={(v) => setBrand({ ...brand, voice_description: v })} full />
+            <Field label="Compliance footer" value={brand.compliance_footer} onChange={(v) => setBrand({ ...brand, compliance_footer: v })} full />
           </div>
+          <button onClick={save} disabled={saving} className="btn-cinematic mt-4">
+            {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" strokeWidth={1.75} />}
+            {saving ? "Saving…" : "Save brand profile"}
+          </button>
         </Card>
 
-        {/* Team */}
         <Card id="team" title="Team & Roles" icon={Users} eyebrow="Access">
           <div className="kl-table-wrap !shadow-none">
             <table className="kl-table">
@@ -77,33 +114,30 @@ export function SettingsPage() {
           </div>
         </Card>
 
-        {/* AI */}
         <Card id="ai" title="AI Model Preferences" icon={Brain} eyebrow="Engine">
           <div className="grid sm:grid-cols-2 gap-2.5">
             {[
-              ["Primary model", "Claude"],
-              ["Secondary model", "Gemini"],
-              ["Research layer", "Perplexity"],
-              ["Embedding model", "Placeholder"],
+              ["Primary model", "Claude Sonnet 4.6"],
+              ["Embedding model", "text-embedding-3-small"],
+              ["Research layer", "Perplexity Sonar Pro"],
+              ["Cross-analysis", "Claude (cached system prompt)"],
             ].map(([l, v]) => (
               <div key={l} className="rounded-md border border-border bg-transparent p-4 flex items-center justify-between">
                 <div>
                   <div className="kl-eyebrow text-[9.5px]">{l}</div>
                   <div className="font-display text-[15px] font-medium tracking-tight mt-1">{v}</div>
                 </div>
-                <StatusBadge label="Not Connected" variant="not-connected" />
               </div>
             ))}
           </div>
         </Card>
 
-        {/* Script length */}
         <Card id="script" title="Script Length Rules" icon={FileText} eyebrow="Constraints">
           <div className="grid sm:grid-cols-3 gap-2.5">
             {[
-              ["30 seconds", "70–85"],
+              ["30 seconds", "65–85"],
               ["45 seconds", "95–115"],
-              ["60 seconds", "120–140"],
+              ["60 seconds", "120–150"],
             ].map(([d, w]) => (
               <div key={d} className="rounded-md border border-border bg-transparent p-4">
                 <div className="kl-eyebrow text-[9.5px]">{d}</div>
@@ -114,16 +148,15 @@ export function SettingsPage() {
           </div>
         </Card>
 
-        {/* Platform */}
         <Card id="platform" title="Platform Rules" icon={Smartphone} eyebrow="Distribution">
           <div className="space-y-1.5 text-[13px]">
             {[
-              ["TikTok", "Short caption, discovery-focused"],
-              ["Instagram Reels", "Saves and DM leads"],
-              ["YouTube Shorts", "Searchable titles and descriptions"],
-              ["Facebook Reels", "Community / share oriented"],
-              ["LinkedIn", "Professional authority, one post per day"],
-              ["X/Twitter", "Short thought-leadership posts"],
+              ["TikTok", "5–6 posts/day, discovery hook"],
+              ["Instagram Reels", "4–5 posts/day, saves & DM leads"],
+              ["YouTube Shorts", "3–4 posts/day, searchable titles"],
+              ["Facebook Reels", "2–3 posts/day, community share"],
+              ["LinkedIn", "1 post/day, professional authority"],
+              ["X/Twitter", "2–3 posts/day, short take"],
             ].map(([p, r]) => (
               <div key={p} className="flex items-center justify-between rounded-md border border-border bg-transparent px-4 py-2.5">
                 <span className="font-medium">{p}</span>
@@ -133,7 +166,6 @@ export function SettingsPage() {
           </div>
         </Card>
 
-        {/* Compliance */}
         <Card id="compliance" title="Compliance Rules" icon={Shield} eyebrow="Mandate">
           <ul className="space-y-1.5 text-[13px]">
             {[
@@ -141,7 +173,8 @@ export function SettingsPage() {
               "Always include Equal Housing Lender",
               "No guaranteed rates",
               "No guaranteed loan approvals",
-              "Rate comparisons must include APR and date",
+              "No reference to New York (excluded state)",
+              "Cite source author + book on every post",
             ].map((r) => (
               <li key={r} className="flex items-center gap-2.5 rounded-md border border-border bg-transparent px-4 py-2.5">
                 <Shield className="h-3 w-3 text-accent shrink-0" strokeWidth={1.75} /> {r}
@@ -150,15 +183,14 @@ export function SettingsPage() {
           </ul>
         </Card>
 
-        {/* Export */}
         <Card id="export" title="Export Preferences" icon={DownloadIcon} eyebrow="Output">
           <div className="grid sm:grid-cols-2 gap-2.5 text-[13px]">
             {[
-              ["Default format", "Word"],
-              ["Compliance footer", "Yes"],
-              ["Source references", "Yes"],
-              ["Production brief", "Yes"],
-              ["Captions", "Yes"],
+              ["Default format", "Word (.docx)"],
+              ["Compliance footer", "Yes — appended to Instagram caption"],
+              ["Source references", "Yes — book + framework"],
+              ["Production brief", "Yes — included per post"],
+              ["5 platform captions", "Yes"],
             ].map(([k, v]) => (
               <div key={k} className="flex items-center justify-between rounded-md border border-border bg-transparent px-4 py-2.5">
                 <span className="text-muted-foreground">{k}</span>
@@ -168,10 +200,9 @@ export function SettingsPage() {
           </div>
         </Card>
 
-        {/* Integrations */}
         <Card id="integrations" title="Backend Integration Readiness" icon={Plug} eyebrow="Connections">
           <div className="grid sm:grid-cols-2 gap-2.5">
-            {INTEGRATIONS.map((i) => (
+            {integrations.map((i) => (
               <div key={i.name} className="rounded-md border border-border bg-transparent p-4 flex items-start justify-between gap-2">
                 <div>
                   <div className="font-medium text-[13.5px]">{i.name}</div>
@@ -180,6 +211,9 @@ export function SettingsPage() {
                 <StatusBadge label={i.status} variant={statusToVariant(i.status)} />
               </div>
             ))}
+            {integrations.length === 0 && (
+              <div className="text-[13px] text-muted-foreground sm:col-span-2 p-4">Backend not reachable. Start the FastAPI server to populate this.</div>
+            )}
           </div>
         </Card>
       </div>
@@ -204,14 +238,13 @@ function Card({ id, title, icon: Icon, eyebrow, children }: { id: string; title:
   );
 }
 
-function Field({ label, value, full }: { label: string; value: string; full?: boolean }) {
+function Field({ label, value, onChange, full }: { label: string; value: string; onChange?: (v: string) => void; full?: boolean }) {
   return (
     <div className={full ? "sm:col-span-2" : ""}>
       <label className="block font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground mb-1.5">
         {label}
       </label>
-      <input defaultValue={value} className="kl-input" />
+      <input value={value} onChange={(e) => onChange?.(e.target.value)} className="kl-input" />
     </div>
   );
 }
-

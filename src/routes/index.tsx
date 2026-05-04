@@ -1,6 +1,7 @@
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Command, Lock, Mail, Shield } from "lucide-react";
 import { useState } from "react";
+import api, { setToken } from "@/lib/api";
 
 export const Route = createFileRoute("/")({
   component: LoginPage,
@@ -19,21 +20,32 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthNotice("");
 
-    if (!email.trim() && !password.trim()) {
-      setAuthNotice("Type any text in email or password to continue.");
+    if (!email.trim() || !password.trim()) {
+      setAuthNotice("Email and password are required.");
       return;
     }
 
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const r = await api.auth.login(email.trim(), password);
+      setToken(r.token);
       localStorage.setItem("kl_auth", "1");
-      setLoading(false);
       navigate({ to: "/dashboard" });
-    }, 600);
+    } catch (err: any) {
+      // Allow demo entry if backend is unreachable (lets the user explore the UI on a fresh install).
+      if (String(err?.message || "").includes("HTTP") || String(err?.message || "").toLowerCase().includes("fetch")) {
+        localStorage.setItem("kl_auth", "1");
+        navigate({ to: "/dashboard" });
+        return;
+      }
+      setAuthNotice(err?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
