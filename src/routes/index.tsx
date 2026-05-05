@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Command, Lock, Mail, Shield } from "lucide-react";
 import { useState } from "react";
-import api, { setToken } from "@/lib/api";
+import api, { setStoredUser, setToken } from "@/lib/api";
 
 export const Route = createFileRoute("/")({
   component: LoginPage,
@@ -33,6 +33,7 @@ function LoginPage() {
     try {
       const r = await api.auth.login(email.trim(), password);
       setToken(r.token);
+      setStoredUser(r.user);
       localStorage.setItem("kl_auth", "1");
       navigate({ to: "/dashboard" });
     } catch (err: any) {

@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Lock, Mail, Shield, Command, ArrowRight, User } from "lucide-react";
 import { useState } from "react";
-import api, { setToken } from "@/lib/api";
+import api, { setStoredUser, setToken } from "@/lib/api";
 
 export const Route = createFileRoute("/register")({
   component: RegisterPage,
@@ -39,6 +39,7 @@ function RegisterPage() {
     try {
       const r = await api.auth.register(email.trim(), password, fullName);
       setToken(r.token);
+      setStoredUser(r.user);
       localStorage.setItem("kl_auth", "1");
       navigate({ to: "/dashboard" });
     } catch (err: any) {

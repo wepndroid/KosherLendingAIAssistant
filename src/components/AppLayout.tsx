@@ -2,6 +2,7 @@ import { Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { Bell, Calendar, ChevronDown, ClipboardCheck, Command, Download, History, KeyRound, LayoutDashboard, Library, LogOut, Menu, Search, Settings, Sparkles, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BRAND } from "@/lib/mock-data";
+import { getStoredUser, setStoredUser, setToken } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 const NAV_PRIMARY = [{ to: "/dashboard", label: "Dashboard", icon: LayoutDashboard }] as const;
@@ -261,6 +262,20 @@ function NavSection({ label, items, pathname }: { label: string; items: Readonly
 function UserMenu() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState<{ name?: string | null; email?: string | null } | null>(() => getStoredUser());
+
+  useEffect(() => {
+    setUser(getStoredUser());
+  }, []);
+
+  const displayName = (user?.name || "").trim() || (user?.email || "").trim() || "User";
+  const displayEmail = (user?.email || "").trim() || "No email";
+  const initials = displayName
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("") || "U";
 
   return (
     <div className="relative">
@@ -269,10 +284,10 @@ function UserMenu() {
         className="shadow-inset flex items-center gap-2.5 rounded-md border border-input bg-card/60 py-1.5 pl-1.5 pr-2 transition-colors hover:bg-secondary/60"
       >
         <div className="surface-charcoal flex h-7 w-7 items-center justify-center rounded border border-sidebar-border font-display text-[11px] font-medium text-white">
-          JB
+          {initials}
         </div>
         <div className="hidden text-left sm:block">
-          <div className="text-[12px] font-medium leading-tight text-foreground">Jeffrey Ben-Davis</div>
+          <div className="text-[12px] font-medium leading-tight text-foreground">{displayName}</div>
           <div className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.15em] text-accent">Principal | NMLS 320841</div>
         </div>
         <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" strokeWidth={1.75} />
@@ -283,13 +298,15 @@ function UserMenu() {
           <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
           <div className="absolute right-0 z-20 mt-2 w-64 overflow-hidden rounded-md border border-border bg-popover shadow-elevated">
             <div className="border-b border-border p-3.5">
-              <div className="text-[13px] font-medium text-foreground">Jeffrey Ben-Davis</div>
-              <div className="mt-0.5 text-[11px] text-muted-foreground">jeffrey@kosherlending.com</div>
+              <div className="text-[13px] font-medium text-foreground">{displayName}</div>
+              <div className="mt-0.5 text-[11px] text-muted-foreground">{displayEmail}</div>
               <div className="mt-2 text-[10px] uppercase tracking-[0.15em] text-accent">NMLS #320841</div>
             </div>
             <button
               onClick={() => {
                 localStorage.removeItem("kl_auth");
+                setToken(null);
+                setStoredUser(null);
                 navigate({ to: "/" });
               }}
               className="flex w-full items-center gap-2.5 px-3.5 py-2.5 text-left text-[13px] transition-colors hover:bg-secondary"

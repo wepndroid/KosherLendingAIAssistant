@@ -2,6 +2,7 @@
 
 const BASE = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/+$/, "");
 const TOKEN_KEY = "kl_token";
+const USER_KEY = "kl_user";
 
 export function getToken(): string | null {
   if (typeof window === "undefined") return null;
@@ -12,6 +13,26 @@ export function setToken(token: string | null) {
   if (typeof window === "undefined") return;
   if (token) localStorage.setItem(TOKEN_KEY, token);
   else localStorage.removeItem(TOKEN_KEY);
+}
+
+export function getStoredUser<T = any>(): T | null {
+  if (typeof window === "undefined") return null;
+  const raw = localStorage.getItem(USER_KEY);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
+}
+
+export function setStoredUser(user: any | null) {
+  if (typeof window === "undefined") return;
+  if (!user) {
+    localStorage.removeItem(USER_KEY);
+    return;
+  }
+  localStorage.setItem(USER_KEY, JSON.stringify(user));
 }
 
 class ApiError extends Error {
